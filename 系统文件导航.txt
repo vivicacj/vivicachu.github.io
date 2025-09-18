@@ -1,0 +1,63 @@
+o-level-analysis-platform/
+├── index.html                       # 平台主页 (总控制台)
+|
+├── 📂 assets/                       # 存放所有共享的静态资源
+│   ├── 📂 css/
+│   │   └── style.css                # 全局主样式表
+│   ├── 📂 js/
+│   │   └── main.js                  # 全局交互脚本
+│   └── 📂 images/
+│       └── logo.png                 # (可选) 平台Logo等图片
+|
+├── 📂 reports/                      # 存放所有PDF分析报告 (如E-Math范例)
+│   ├── 📂 emath/
+│   │   └── emath_2022-2023_analysis_report.pdf
+│   └── ...                          # (未来其他科目的报告)
+|
+├── 📂 amath/                        # 物理科目分析模块
+│   ├── 1_strategy_framework.html    # 第一层：宏观战略与框架
+│   ├── 2_core_topics.html           # 第二层：核心题型深度突破
+│   ├── 3_satellite_topics.html      # 第三层：卫星题型快速攻克
+│   └── 4_student_diagnosis.html     # 第四层：学生个人诊断与干预
+|
+├── 📂 chinese/                      # 高等华文科目分析模块
+│   ├── 1_strategy_framework.html    # (结构同上, 内容为华文的分析)
+│   ├── 2_core_topics.html
+│   ├── 3_satellite_topics.html
+│   └── 4_student_diagnosis.html
+|
+├── 📂 emath/                        # 初等数学科目分析模块
+│   ├── 1_strategy_framework.html    # (结构同上, 内容为E-Math的分析)
+│   ├── 2_core_topics.html
+│   ├── 3_satellite_topics.html
+│   └── 4_student_diagnosis.html
+|
+├── 📂 english/                      # 英语科目分析模块
+│   ├── 1_strategy_framework.html    # (结构同上...)
+│   ├── 2_core_topics.html
+│   ├── 3_satellite_topics.html
+│   └── 4_student_diagnosis.html
+|
+├── 📂 geography/                    # 地理科目分析模块
+│   ├── 1_strategy_framework.html    # (结构同上...)
+│   ├── 2_core_topics.html
+│   ├── 3_satellite_topics.html
+│   └── 4_student_diagnosis.html
+|
+├── 📂 history/                      # 历史科目分析模块
+│   ├── 1_strategy_framework.html    # (结构同上...)
+│   ├── 2_core_topics.html
+│   ├── 3_satellite_topics.html
+│   └── 4_student_diagnosis.html
+|
+├── 📂 poa/                          # 会计学原理科目分析模块
+│   ├── 1_strategy_framework.html    # (结构同上...)
+│   ├── 2_core_topics.html
+│   ├── 3_satellite_topics.html
+│   └── 4_student_diagnosis.html
+|
+└── 📂 science/                      # 综合科学科目分析模块
+    ├── 1_strategy_framework.html    # (结构同上...)
+    ├── 2_core_topics.html
+    ├── 3_satellite_topics.html
+    └── 4_student_diagnosis.html
