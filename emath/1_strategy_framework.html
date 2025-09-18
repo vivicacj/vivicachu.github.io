@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Math Exam Analysis Dashboard 2022-2023</title>
-    <!-- 1. 引入Chart.js库 -->
+    <!-- 引入Chart.js库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
+        /* --- 全局样式 --- */
         * {
             margin: 0;
             padding: 0;
@@ -15,7 +16,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f9; /* Changed background for better card visibility */
+            background-color: #f4f7f9;
         }
 
         .container {
@@ -24,10 +25,37 @@
             padding: 20px;
         }
 
+        /* --- 面包屑导航样式 --- */
+        .breadcrumbs {
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 0.9em;
+        }
+        .breadcrumbs a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumbs span {
+            margin: 0 8px;
+            color: #999;
+        }
+        .breadcrumbs .current-page {
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* --- 页面头部样式 --- */
         .header {
             text-align: center;
             margin-bottom: 40px;
-            background: white; /* Simplified header */
+            background: white;
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
@@ -46,6 +74,7 @@
             color: #666;
         }
 
+        /* --- 选项卡样式 --- */
         .tabs-container {
              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
              padding: 20px;
@@ -99,6 +128,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* --- 卡片和内容样式 --- */
         .card {
             background: white;
             border-radius: 20px;
@@ -198,12 +228,6 @@
             text-align: left;
             border-bottom: 1px solid #f0f0f0;
         }
-
-        .comparison-table th {
-            background: #f8f9fa;
-            color: #333;
-            font-weight: 600;
-        }
         
         .comparison-table thead th {
              background: linear-gradient(45deg, #667eea, #764ba2);
@@ -211,58 +235,15 @@
         }
 
 
-        .trend-up {
-            color: #28a745;
-            font-weight: bold;
-        }
+        .trend-up { color: #28a745; font-weight: bold; }
+        .trend-down { color: #dc3545; font-weight: bold; }
+        .trend-stable { color: #6c757d; }
 
-        .trend-down {
-            color: #dc3545;
-            font-weight: bold;
-        }
-
-        .trend-stable {
-            color: #6c757d;
-        }
-
-        .insight-box {
-            background: #fffbeb;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 15px 0;
-            border-left: 5px solid #fdcb6e;
-        }
-
-        .strategy-box {
-            background: #f0fff4;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 15px 0;
-            border-left: 5px solid #00b894;
-        }
-
-        .framework-section {
-            background: #f8f9ff;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px 0;
-        }
-
-        .tier-card {
-            background: white;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .flashcard {
-            background: #fff5f5;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            border: 1px solid #fbb6ce;
-        }
+        .insight-box { background: #fffbeb; padding: 20px; border-radius: 15px; margin: 15px 0; border-left: 5px solid #fdcb6e; }
+        .strategy-box { background: #f0fff4; padding: 20px; border-radius: 15px; margin: 15px 0; border-left: 5px solid #00b894; }
+        .framework-section { background: #f8f9ff; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .tier-card { background: white; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 4px solid #667eea; }
+        .flashcard { background: #fff5f5; padding: 15px; border-radius: 10px; margin: 10px 0; border: 1px solid #fbb6ce; }
 
         .radar-container {
             height: 500px;
@@ -272,27 +253,27 @@
             padding: 20px;
         }
 
+        /* --- 响应式设计 --- */
         @media (max-width: 992px) {
-            .chart-row {
-                grid-template-columns: 1fr;
-            }
+            .chart-row { grid-template-columns: 1fr; }
         }
         
         @media (max-width: 768px) {
-            .nav-tabs {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 10px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
+            .nav-tabs { flex-direction: column; align-items: stretch; padding: 10px; }
+            .header h1 { font-size: 2em; }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        
+        <!-- 面包屑导航 (返回主页) -->
+        <nav class="breadcrumbs">
+            <a href="../index.html">平台主页</a>
+            <span>&gt;</span>
+            <span class="current-page">E-Math 考情分析报告</span>
+        </nav>
+
         <div class="header">
             <h1>E-Math End-of-Year Exams Analysis</h1>
             <p>Comprehensive Analysis Report: 2022 vs 2023 Trends & Strategic Insights</p>
@@ -309,22 +290,17 @@
             </div>
         </div>
 
-        <!-- All the tab content is here... -->
         <!-- Overview Tab -->
         <div id="overview" class="tab-content active">
             <div class="card">
                 <h2>Executive Summary</h2>
                 <div class="chart-row">
-                    <div class="chart-container">
-                        <canvas id="overviewChart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="cognitiveChart"></canvas>
-                    </div>
+                    <div class="chart-container"><canvas id="overviewChart"></canvas></div>
+                    <div class="chart-container"><canvas id="cognitiveChart"></canvas></div>
                 </div>
                 <div class="insight-box">
                     <h3>Key Findings</h3>
-                    <p><strong>Exam Structure Stability:</strong> The "four pillars" structure remains highly consistent between 2022 and 2023, with core topics accounting for ~78-79% of total marks.</p>
+                    <p><strong>Exam Structure Stability:</strong> The "four pillars" structure remains highly consistent, with core topics accounting for ~78-79% of total marks.</p>
                     <p><strong>Algebraic Emphasis:</strong> Algebraic Manipulation increased from ~20% to ~22%, becoming even more critical as the "operating system" for all high-value topics.</p>
                     <p><strong>Procedural Focus:</strong> P-Layer (Procedural) questions increased from ~55% to ~58%, emphasizing accurate execution over rote memorization.</p>
                 </div>
@@ -336,35 +312,13 @@
             <div class="card">
                 <h2>2022 E-Math Exam Analysis</h2>
                 <p><strong>Data Source:</strong> 11 exam papers, ~250 questions, 900 marks</p>
-                <div class="chart-container">
-                    <canvas id="chart2022"></canvas>
-                </div>
+                <div class="chart-container"><canvas id="chart2022"></canvas></div>
                 <h3>Core Topics (~78% of Total Marks)</h3>
                 <div class="topic-grid">
-                    <div class="topic-card">
-                        <div class="topic-title">Trigonometry Application in Context</div>
-                        <div class="topic-weight">~25% (Highest Weighting)</div>
-                        <div class="topic-triggers"><strong>Triggers:</strong> Bearing, Angle of elevation, Shortest distance, real-world scenarios</div>
-                        <div class="insight-box"><strong>2022 Insight:</strong> The undisputed heavyweight champion, frequently appearing as the most complex and highest-value question in Paper 2.</div>
-                    </div>
-                    <div class="topic-card">
-                        <div class="topic-title">Comprehensive Algebraic Manipulation</div>
-                        <div class="topic-weight">~20% (Foundation)</div>
-                        <div class="topic-triggers"><strong>Triggers:</strong> Simplify, Solve, Express as a single fraction, Make x the subject</div>
-                        <div class="insight-box"><strong>2022 Insight:</strong> Essential prerequisite for success in all other core topics. Errors in this area had a cascading negative effect.</div>
-                    </div>
-                    <div class="topic-card">
-                        <div class="topic-title">Quadratic Functions & Graphs</div>
-                        <div class="topic-weight">~18% (Visual-Algebraic Link)</div>
-                        <div class="topic-triggers"><strong>Triggers:</strong> Sketch the graph, Completing the square, Turning point, Line of symmetry</div>
-                        <div class="insight-box"><strong>2022 Insight:</strong> Very stable and predictable core topic following standard patterns.</div>
-                    </div>
-                    <div class="topic-card">
-                        <div class="topic-title">Geometric Proofs & Similarity/Congruency</div>
-                        <div class="topic-weight">~15% (Logic Test)</div>
-                        <div class="topic-triggers"><strong>Triggers:</strong> Show that..., Prove that..., similar, congruent</div>
-                        <div class="insight-box"><strong>2022 Insight:</strong> Heavily focused on AA Similarity proof, followed by ratio calculations.</div>
-                    </div>
+                    <div class="topic-card"><div class="topic-title">Trigonometry Application</div><div class="topic-weight">~25%</div></div>
+                    <div class="topic-card"><div class="topic-title">Algebraic Manipulation</div><div class="topic-weight">~20%</div></div>
+                    <div class="topic-card"><div class="topic-title">Quadratic Functions & Graphs</div><div class="topic-weight">~18%</div></div>
+                    <div class="topic-card"><div class="topic-title">Geometric Proofs & Similarity</div><div class="topic-weight">~15%</div></div>
                 </div>
             </div>
         </div>
@@ -374,82 +328,44 @@
             <div class="card">
                 <h2>2023 E-Math Exam Analysis</h2>
                  <p><strong>Data Source:</strong> 8 exam papers, ~180 questions, 640 marks</p>
-                 <div class="chart-container">
-                    <canvas id="chart2023"></canvas>
-                </div>
+                 <div class="chart-container"><canvas id="chart2023"></canvas></div>
                 <h3>Core Topics (~79% of Total Marks)</h3>
                 <div class="topic-grid">
-                     <div class="topic-card">
-                        <div class="topic-title">Comprehensive Algebraic Manipulation</div>
-                        <div class="topic-weight">~22% (Notably Increased)</div>
-                        <div class="topic-triggers"><strong>Triggers:</strong> Simplify, Solve, Express as a single fraction, Make x the subject</div>
-                        <div class="insight-box"><strong>2023 Trend:</strong> Increased integration. Problems frequently package fraction simplification and equation solving into single multi-part questions.</div>
-                    </div>
-                    <div class="topic-card">
-                        <div class="topic-title">Trigonometry Application in Context</div>
-                        <div class="topic-weight">~23% (Stable)</div>
-                        <div class="topic-triggers"><strong>Triggers:</strong> Bearing, Angle of elevation, Shortest distance, sailing, surveying</div>
-                        <div class="insight-box"><strong>2023 Trend:</strong> Combination of 2D and 3D elements remains dominant, demanding strong spatial reasoning.</div>
-                    </div>
-                    <div class="topic-card">
-                        <div class="topic-title">Quadratic Functions & Graphs</div>
-                        <div class="topic-weight">~18% (Stable)</div>
-                        <div class="topic-triggers"><strong>Triggers:</strong> Sketch the graph, Completing the square, Turning point, Line of symmetry</div>
-                        <div class="insight-box"><strong>2023 Trend:</strong> Greater emphasis on graph-algebra connection. More interpretation and parameter solving.</div>
-                    </div>
-                    <div class="topic-card">
-                        <div class="topic-title">Geometric Proofs & Similarity/Congruency</div>
-                        <div class="topic-weight">~16% (Slightly Decreased)</div>
-                        <div class="topic-triggers"><strong>Triggers:</strong> Show that..., Prove that..., similar, congruent</div>
-                        <div class="insight-box"><strong>2023 Trend:</strong> Slight decrease in standalone proofs. More integration as steps in larger geometry problems.</div>
-                    </div>
+                     <div class="topic-card"><div class="topic-title">Algebraic Manipulation</div><div class="topic-weight">~22%</div></div>
+                    <div class="topic-card"><div class="topic-title">Trigonometry Application</div><div class="topic-weight">~23%</div></div>
+                    <div class="topic-card"><div class="topic-title">Quadratic Functions & Graphs</div><div class="topic-weight">~18%</div></div>
+                    <div class="topic-card"><div class="topic-title">Geometric Proofs & Similarity</div><div class="topic-weight">~16%</div></div>
                 </div>
             </div>
         </div>
         
-        <!-- Other tabs... -->
+        <!-- Comparison Tab -->
         <div id="comparison" class="tab-content">
             <div class="card">
                 <h2>2022 vs 2023 Comparative Analysis</h2>
-                
                 <h3>Core Topic Weight Shifts</h3>
                 <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Core Topic</th>
-                            <th>2022 Weight (%)</th>
-                            <th>2023 Weight (%)</th>
-                            <th>Trend</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Core Topic</th><th>2022 Weight (%)</th><th>2023 Weight (%)</th><th>Trend</th></tr></thead>
                     <tbody>
                         <tr><td>Trigonometry Application</td><td>25</td><td>23</td><td class="trend-stable">Stable</td></tr>
                         <tr><td>Algebraic Manipulation</td><td>20</td><td>22</td><td class="trend-up">Slight Increase</td></tr>
                         <tr><td>Quadratic Functions & Graphs</td><td>18</td><td>18</td><td class="trend-stable">Stable</td></tr>
                         <tr><td>Geometric Proofs & Similarity</td><td>15</td><td>16</td><td class="trend-stable">Stable</td></tr>
-                        <tr><td><strong>Total Core Topics</strong></td><td><strong>78</strong></td><td><strong>79</strong></td><td class="trend-stable"><strong>Dominant</strong></td></tr>
                     </tbody>
                 </table>
-
                 <h3>Cognitive Action Evolution</h3>
                 <table class="comparison-table">
-                   <thead>
-                        <tr>
-                            <th>Cognitive Action</th>
-                            <th>2022 Weight (%)</th>
-                            <th>2023 Weight (%)</th>
-                            <th>Trend</th>
-                        </tr>
-                    </thead>
+                   <thead><tr><th>Cognitive Action</th><th>2022 Weight (%)</th><th>2023 Weight (%)</th><th>Trend</th></tr></thead>
                     <tbody>
                         <tr><td>M - Memorisation</td><td>5</td><td>4</td><td class="trend-down">Decreasing</td></tr>
                         <tr><td>P - Procedure</td><td>55</td><td>58</td><td class="trend-up">Slight Increase</td></tr>
-                        <tr><td>C - Conception/Analysis</td><td>40</td><td>38</td><td class="trend-stable">Stable, format evolving</td></tr>
+                        <tr><td>C - Conception/Analysis</td><td>40</td><td>38</td><td class="trend-stable">Stable</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
+        <!-- Framework Tab -->
         <div id="framework" class="tab-content">
              <div class="card">
                 <h2>The M-P-C Knowledge Framework & Core Competencies</h2>
@@ -462,159 +378,88 @@
                         <h3>Tier 3: Conceptual (C-Layer)</h3>
                         <div class="tier-card"><h4>Feynman Prompt:</h4><p><em>"Explain why similar triangles don't have to be congruent."</em></p></div>
                     </div>
-                    <div class="radar-container">
-                        <canvas id="radarChart"></canvas>
-                    </div>
+                    <div class="radar-container"><canvas id="radarChart"></canvas></div>
                 </div>
             </div>
         </div>
 
+        <!-- Strategies Tab -->
         <div id="strategies" class="tab-content">
             <div class="card">
                 <h2>Actionable Strategies for 2024 Preparation</h2>
-                <div class="strategy-box"><h3>Strategy 1: Elevate Algebraic Precision to Priority #1</h3><p><strong>Reason:</strong> Algebra is the "operating system" for all high-value topics.</p><p><strong>Action:</strong> Implement a weekly "Algebraic Warm-up" with a >95% accuracy target.</p></div>
-                <div class="strategy-box"><h3>Strategy 2: Isolate and Train "Justify & Explain" Skills</h3><p><strong>Reason:</strong> Exams are increasingly asking "Why," not just "How."</p><p><strong>Action:</strong> Create a "C-Layer Quick-Fire Round" for conceptual questions.</p></div>
-                <div class="strategy-box"><h3>Strategy 3: Embrace "Graphical Analysis" as a New Core Skill</h3><p><strong>Reason:</strong> The ability to interpret, deduce, and make decisions from graphs is critical.</p><p><strong>Action:</strong> Treat "Graphing Questions" as a "fifth core topic," focusing on meaning.</p></div>
+                <div class="strategy-box"><h3>Strategy 1: Elevate Algebraic Precision to Priority #1</h3><p><strong>Action:</strong> Implement a weekly "Algebraic Warm-up" with a >95% accuracy target.</p></div>
+                <div class="strategy-box"><h3>Strategy 2: Isolate and Train "Justify & Explain" Skills</h3><p><strong>Action:</strong> Create a "C-Layer Quick-Fire Round" for conceptual questions.</p></div>
+                <div class="strategy-box"><h3>Strategy 3: Embrace "Graphical Analysis" as a New Core Skill</h3><p><strong>Action:</strong> Treat "Graphing Questions" as a "fifth core topic," focusing on meaning.</p></div>
             </div>
         </div>
-
     </div>
 
-    <!-- =================================================================== -->
-    <!-- THIS IS THE MISSING JAVASCRIPT PART THAT DRAWS CHARTS AND MANAGES TABS -->
-    <!-- =================================================================== -->
+    <!-- JavaScript for Tabs and Charts -->
     <script>
         // --- TAB SWITCHING LOGIC ---
         function showTab(tabId) {
-            // Hide all tab content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.style.display = 'none';
-                content.classList.remove('active');
-            });
-
-            // Deactivate all tab buttons
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-
-            // Show the selected tab content
-            document.getElementById(tabId).style.display = 'block';
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-
-
-            // Activate the selected tab button
-            const activeButton = document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`);
-            activeButton.classList.add('active');
+            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
         }
 
         // --- CHART DRAWING LOGIC ---
         document.addEventListener('DOMContentLoaded', function () {
             const chartColors = ['#667eea', '#764ba2', '#f39c12', '#27ae60', '#e74c3c'];
             const chartFont = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+            Chart.defaults.font.family = chartFont;
 
-            // Chart: Overview - Core Topics 2022 vs 2023
             new Chart(document.getElementById('overviewChart'), {
                 type: 'bar',
                 data: {
                     labels: ['Trigonometry', 'Algebra', 'Quadratics', 'Geometry'],
                     datasets: [
-                        {
-                            label: '2022 Weight (%)',
-                            data: [25, 20, 18, 15],
-                            backgroundColor: 'rgba(102, 126, 234, 0.7)',
-                            borderColor: '#667eea',
-                            borderWidth: 2
-                        },
-                        {
-                            label: '2023 Weight (%)',
-                            data: [23, 22, 18, 16],
-                            backgroundColor: 'rgba(118, 75, 162, 0.7)',
-                            borderColor: '#764ba2',
-                            borderWidth: 2
-                        }
+                        { label: '2022 Weight (%)', data: [25, 20, 18, 15], backgroundColor: 'rgba(102, 126, 234, 0.7)'},
+                        { label: '2023 Weight (%)', data: [23, 22, 18, 16], backgroundColor: 'rgba(118, 75, 162, 0.7)'}
                     ]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { title: { display: true, text: 'Core Topic Weight Comparison', font: { size: 16, family: chartFont } } },
-                    scales: { y: { beginAtZero: true, grid: { color: '#eee' } }, x: { grid: { display: false } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Core Topic Weight Comparison', font: { size: 16 } } } }
             });
 
-            // Chart: Overview - Cognitive Action Shift
             new Chart(document.getElementById('cognitiveChart'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Memorisation', 'Procedure', 'Analysis'],
-                    datasets: [{
-                        label: 'Cognitive Action',
-                        data: [4, 58, 38], // Using 2023 data
-                        backgroundColor: chartColors,
-                        hoverOffset: 4
-                    }]
+                    datasets: [{ data: [4, 58, 38], backgroundColor: chartColors }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { title: { display: true, text: 'Cognitive Action Distribution (2023)', font: { size: 16, family: chartFont } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Cognitive Action Distribution (2023)', font: { size: 16 } } } }
             });
 
-            // Chart: 2022 Topic Distribution
             new Chart(document.getElementById('chart2022'), {
                 type: 'pie',
                 data: {
                     labels: ['Trigonometry', 'Algebra', 'Quadratics', 'Geometry', 'Satellite Topics'],
-                    datasets: [{
-                        data: [25, 20, 18, 15, 22],
-                        backgroundColor: chartColors,
-                        hoverOffset: 4
-                    }]
+                    datasets: [{ data: [25, 20, 18, 15, 22], backgroundColor: chartColors }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { title: { display: true, text: '2022 Topic Weight Distribution', font: { size: 16, family: chartFont } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: '2022 Topic Weight Distribution', font: { size: 16 } } } }
             });
             
-            // Chart: 2023 Topic Distribution
             new Chart(document.getElementById('chart2023'), {
                 type: 'pie',
                 data: {
                     labels: ['Trigonometry', 'Algebra', 'Quadratics', 'Geometry', 'Satellite Topics'],
-                    datasets: [{
-                        data: [23, 22, 18, 16, 21],
-                        backgroundColor: chartColors,
-                        hoverOffset: 4
-                    }]
+                    datasets: [{ data: [23, 22, 18, 16, 21], backgroundColor: chartColors }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { title: { display: true, text: '2023 Topic Weight Distribution', font: { size: 16, family: chartFont } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: '2023 Topic Weight Distribution', font: { size: 16 } } } }
             });
 
-            // Chart: Radar Chart for Self-Assessment
             new Chart(document.getElementById('radarChart'), {
                 type: 'radar',
                 data: {
                     labels: ['Algebraic Precision', 'Graphical Analysis', 'Geometric Reasoning', 'Word Problem Modelling', 'Procedural Fluency', 'Conceptual Transfer'],
                     datasets: [{
-                        label: 'My Competency (Self-Assessed)',
-                        data: [0, 0, 0, 0, 0, 0], // Start at 0, can be filled by user
-                        fill: true,
-                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
-                        borderColor: '#667eea',
-                        pointBackgroundColor: '#667eea',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#667eea'
+                        label: 'My Competency', data: [3, 4, 3, 2, 4, 2], // Example data
+                        fill: true, backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        borderColor: '#667eea', pointBackgroundColor: '#667eea'
                     }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { title: { display: true, text: 'Core Competency Self-Assessment', font: { size: 16, family: chartFont } } },
-                    scales: { r: { beginAtZero: true, max: 5, ticks: { stepSize: 1 } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Core Competency Self-Assessment', font: { size: 16 } } }, scales: { r: { beginAtZero: true, max: 5, ticks: { stepSize: 1 } } } }
             });
         });
     </script>
