@@ -32,58 +32,25 @@
         .notification { position: fixed; top: 20px; right: 20px; background: rgba(76, 175, 80, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; transform: translateX(400px); transition: transform 0.3s ease; z-index: 1000; }
         .notification.show { transform: translateX(0); }
 
-        /* --- [新增] 手风琴 (Accordion) 样式 --- */
-        .accordion-item {
-            border-bottom: 1px solid #eee;
-        }
-        .accordion-item:last-child {
-            border-bottom: none;
-        }
-        .accordion-header {
-            padding: 15px 10px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background-color 0.3s ease;
-        }
-        .accordion-header:hover {
-            background-color: #f8f9fa;
-        }
-        .accordion-header .icon {
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
-        .accordion-header.active .icon {
-            transform: rotate(45deg);
-        }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            background-color: #f8f9ff;
-        }
-        .accordion-content ul {
-            list-style-type: none;
-            padding: 10px 15px 15px 30px;
-        }
-        .accordion-content li {
-            padding: 5px 0;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        .accordion-content a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .accordion-content a:hover {
-            text-decoration: underline;
-        }
+        /* --- 手风琴 (Accordion) 样式 --- */
+        .accordion-item { border-bottom: 1px solid #eee; }
+        .accordion-item:last-child { border-bottom: none; }
+        .accordion-header { padding: 15px 10px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.3s ease; }
+        .accordion-header:hover { background-color: #f8f9fa; }
+        .accordion-header .icon { font-size: 1.2rem; transition: transform 0.3s ease; }
+        .accordion-header.active .icon { transform: rotate(45deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: #f8f9ff; }
+        .accordion-content ul { list-style-type: none; padding: 10px 15px 15px 30px; }
+        .accordion-content li { padding: 5px 0; font-size: 0.9rem; opacity: 0.9; }
+        .accordion-content a { color: #667eea; text-decoration: none; font-weight: 500; }
+        .accordion-content a:hover { text-decoration: underline; }
 
-        /* --- [原有] 响应式和其他样式 --- */
+        /* --- 科目配色 --- */
         .english { background: linear-gradient(135deg, #ff6b6b, #ee5a52); } .chinese { background: linear-gradient(135deg, #4ecdc4, #44a08d); } .emath { background: linear-gradient(135deg, #45b7d1, #3498db); } .amath { background: linear-gradient(135deg, #f39c12, #e67e22); } .geography { background: linear-gradient(135deg, #27ae60, #229954); } .science { background: linear-gradient(135deg, #8e44ad, #9b59b6); } .poa { background: linear-gradient(135deg, #e74c3c, #c0392b); } .history { background: linear-gradient(135deg, #795548, #6d4c41); }
+        
+        /* --- Study Resource 卡片配色 --- */
+        .study-resource { background: linear-gradient(135deg, #1abc9c, #16a085); }
+
     </style>
 </head>
 <body>
@@ -97,7 +64,7 @@
             <h2>平台总览</h2>
             <div class="stats">
                 <div class="stat-item"><div class="stat-number">8</div><div class="stat-label">核心科目</div></div>
-                <div class="stat-item"><div class="stat-number">4</div><div class="stat-label">层分析框架</div></div>
+                <div class="stat-item"><div class="stat-number">1</div><div class="stat-label">学习资源</div></div>
                 <div class="stat-item"><div class="stat-number">10+</div><div class="stat-label">年份真题数据</div></div>
                 <div class="stat-item"><div class="stat-number">AI</div><div class="stat-label">趋势预测</div></div>
             </div>
@@ -109,125 +76,108 @@
             
             <div class="subjects-grid">
 
-                <!-- English (Placeholder) -->
+                <!-- English -->
                 <div class="subject-card" onclick="navigateToSubject('english')">
                     <div class="card-header english"><h3>English Language</h3></div>
-                    <div class="card-body">
-                        <ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul>
-                    </div>
+                    <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
                 </div>
 
-                <!-- Chinese (Placeholder) -->
+                <!-- Chinese -->
                 <div class="subject-card" onclick="navigateToSubject('chinese')">
                     <div class="card-header chinese"><h3>Higher Chinese</h3></div>
-                    <div class="card-body">
-                         <ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul>
-                    </div>
+                    <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
                 </div>
 
-                <!-- ======================================================== -->
-                <!-- E-Math Card (REBUILT WITH ACCORDION) - THIS IS THE TEMPLATE -->
-                <!-- ======================================================== -->
+                <!-- E-Math Card -->
                 <div class="subject-card">
-                    <div class="card-header emath">
-                        <h3>Elementary Mathematics</h3>
+                    <div class="card-header emath"><h3>Elementary Mathematics</h3></div>
+                    <div class="card-body">
+                        <div class="accordion-container">
+                            <div class="accordion-item"><div class="accordion-header">第一层：宏观战略与框架 <span class="icon">+</span></div><div class="accordion-content"><ul><li>1. AI学习策略与诊断闭环系统</li><li>2. 通用学科深度分析Prompt库</li><li>3. E-Math 考情分析报告<ul><li><strong><a href="emath/1_strategy_framework.html" target="_blank">3.3 考情演变与未来备考战略洞察 (点击查看)</a></strong></li></ul></li><li>4. E-Math 核心/卫星题型清单</li><li>5. E-Math 核心能力提升项目Checklist</li></ul></div></div>
+                            <div class="accordion-item"><div class="accordion-header">第二层：核心题型深度突破包 <span class="icon">+</span></div><div class="accordion-content"><ul><li>6. 三角函数综合应用 (黄金题库, SOP)</li><li>7. 几何证明与相似/全等 (黄金题库, 母题解析)</li><li>8. 二次函数与图像 (黄金题库, SOP)</li><li>9. 代数综合处理 (黄金题库, 母题解析)</li></ul></div></div>
+                            <div class="accordion-item"><div class="accordion-header">第三层：卫星题型快速攻克包 <span class="icon">+</span></div><div class="accordion-content"><ul><li>10. 指数与标准式 / 不等式</li><li>11. 比例与百分比 / 统计与概率</li><li>12. 坐标几何 / 测量与空间几何</li></ul></div></div>
+                            <div class="accordion-item"><div class="accordion-header">第四层：学生个人诊断与干预 <span class="icon">+</span></div><div class="accordion-content"><ul><li>13. 学生个人档案 (双轨诊断报告)</li><li>14. 通用评估工具 (能力评估清单)</li></ul></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- A-Math -->
+                <div class="subject-card" onclick="navigateToSubject('amath')">
+                    <div class="card-header amath"><h3>Additional Mathematics</h3></div>
+                    <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
+                </div>
+
+                <!-- Geography -->
+                <div class="subject-card" onclick="navigateToSubject('geography')">
+                    <div class="card-header geography"><h3>Geography</h3></div>
+                     <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
+                </div>
+
+                <!-- Science -->
+                <div class="subject-card" onclick="navigateToSubject('science')">
+                    <div class="card-header science"><h3>Combined Science</h3></div>
+                     <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
+                </div>
+
+                <!-- POA -->
+                <div class="subject-card" onclick="navigateToSubject('poa')">
+                    <div class="card-header poa"><h3>Principles of Accounts</h3></div>
+                     <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
+                </div>
+
+                <!-- History -->
+                <div class="subject-card" onclick="navigateToSubject('history')">
+                    <div class="card-header history"><h3>History</h3></div>
+                     <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
+                </div>
+                
+                <!-- ========================================== -->
+                <!-- [修正] Study Resource Card -->
+                <!-- ========================================== -->
+                <div class="subject-card">
+                    <div class="card-header study-resource">
+                        <h3>Study Resource</h3>
                     </div>
                     <div class="card-body">
                         <div class="accordion-container">
-                            <!-- 第一层 -->
                             <div class="accordion-item">
-                                <div class="accordion-header">第一层：宏观战略与框架 <span class="icon">+</span></div>
+                                <div class="accordion-header">第一层：备考计划 <span class="icon">+</span></div>
                                 <div class="accordion-content">
                                     <ul>
-                                        <li>1. AI学习策略与诊断闭环系统</li>
-                                        <li>2. 通用学科深度分析Prompt库</li>
-                                        <li>3. E-Math 考情分析报告
-                                            <ul>
-                                                <li><strong><a href="emath/1_strategy_framework.html" target="_blank">3.3 考情演变与未来备考战略洞察 (点击查看)</a></strong></li>
-                                            </ul>
-                                        </li>
-                                        <li>4. E-Math 核心/卫星题型清单</li>
-                                        <li>5. E-Math 核心能力提升项目Checklist</li>
+                                        <li><strong><a href="emath/emath-revision-guide.html" target="_blank">E-Math A1 冲刺备考计划 (点击查看)</a></strong></li>
+                                        <li>* A-Math 备考计划 (即将推出)</li>
                                     </ul>
                                 </div>
                             </div>
-                            <!-- 第二层 -->
                             <div class="accordion-item">
-                                <div class="accordion-header">第二层：核心题型深度突破包 <span class="icon">+</span></div>
+                                <div class="accordion-header">第二层：核心题型资源 <span class="icon">+</span></div>
                                 <div class="accordion-content">
                                     <ul>
-                                        <li>6. 三角函数综合应用 (黄金题库, SOP)</li>
-                                        <li>7. 几何证明与相似/全等 (黄金题库, 母题解析)</li>
-                                        <li>8. 二次函数与图像 (黄金题库, SOP)</li>
-                                        <li>9. 代数综合处理 (黄金题库, 母题解析)</li>
+                                        <li>* (待开发)</li>
                                     </ul>
                                 </div>
                             </div>
-                            <!-- 第三层 -->
-                            <div class="accordion-item">
-                                <div class="accordion-header">第三层：卫星题型快速攻克包 <span class="icon">+</span></div>
+                             <div class="accordion-item">
+                                <div class="accordion-header">第三层：卫星题型资源 <span class="icon">+</span></div>
                                 <div class="accordion-content">
                                     <ul>
-                                        <li>10. 指数与标准式 / 不等式</li>
-                                        <li>11. 比例与百分比 / 统计与概率</li>
-                                        <li>12. 坐标几何 / 测量与空间几何</li>
+                                        <li>* (待开发)</li>
                                     </ul>
                                 </div>
                             </div>
-                            <!-- 第四层 -->
-                            <div class="accordion-item">
-                                <div class="accordion-header">第四层：学生个人诊断与干预 <span class="icon">+</span></div>
+                             <div class="accordion-item">
+                                <div class="accordion-header">第四层：学习诊断工具 <span class="icon">+</span></div>
                                 <div class="accordion-content">
                                     <ul>
-                                        <li>13. 学生个人档案 (双轨诊断报告)</li>
-                                        <li>14. 通用评估工具 (能力评估清单)</li>
+                                        <li>* (待开发)</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- ================= END OF E-MATH CARD ================= -->
-                
-                <!-- A-Math (Placeholder) -->
-                <div class="subject-card" onclick="navigateToSubject('amath')">
-                    <div class="card-header amath"><h3>Additional Mathematics</h3></div>
-                    <div class="card-body">
-                         <ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul>
-                    </div>
-                </div>
+                <!-- ============ END OF STUDY RESOURCE CARD ============ -->
 
-                <!-- Geography (Placeholder) -->
-                <div class="subject-card" onclick="navigateToSubject('geography')">
-                    <div class="card-header geography"><h3>Geography</h3></div>
-                     <div class="card-body">
-                         <ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul>
-                    </div>
-                </div>
-
-                <!-- Science (Placeholder) -->
-                <div class="subject-card" onclick="navigateToSubject('science')">
-                    <div class="card-header science"><h3>Combined Science</h3></div>
-                     <div class="card-body">
-                         <ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul>
-                    </div>
-                </div>
-
-                <!-- POA (Placeholder) -->
-                <div class="subject-card" onclick="navigateToSubject('poa')">
-                    <div class="card-header poa"><h3>Principles of Accounts</h3></div>
-                     <div class="card-body">
-                         <ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul>
-                    </div>
-                </div>
-
-                <!-- History (Placeholder) -->
-                <div class="subject-card" onclick="navigateToSubject('history')">
-                    <div class="card-header history"><h3>History</h3></div>
-                     <div class="card-body">
-                         <ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -239,29 +189,21 @@
     <div id="notification" class="notification">正在跳转...</div>
 
     <script>
-        // --- [新增] 手风琴 (Accordion) 逻辑 ---
+        // --- 手风琴 (Accordion) 逻辑 ---
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', event => {
-                // 获取当前点击的header
                 const accordionHeader = event.currentTarget;
-                // 获取其内容面板
                 const accordionContent = accordionHeader.nextElementSibling;
-
-                // 切换active类来触发CSS变化
                 accordionHeader.classList.toggle('active');
-
                 if (accordionHeader.classList.contains('active')) {
-                    // 如果是展开，设置max-height为内容的实际高度
                     accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
                 } else {
-                    // 如果是收缩，将max-height设为0
                     accordionContent.style.maxHeight = '0px';
                 }
             });
         });
 
-
-        // --- [原有] 弹窗提示逻辑 (用于未完成的科目) ---
+        // --- 弹窗提示逻辑 (用于未完成的科目) ---
         function navigateToSubject(subject) {
             const notification = document.getElementById('notification');
             const subjectNames = {
@@ -276,7 +218,7 @@
             }, 1500);
         }
 
-        // --- [原有] "开始分析" 按钮逻辑 ---
+        // --- "开始分析" 按钮逻辑 ---
         function startAnalysis() {
             const notification = document.getElementById('notification');
             notification.textContent = '欢迎来到 O-Level 考题深度分析平台！';
@@ -289,4 +231,4 @@
         }
     </script>
 </body>
-</html>
+</html>```
