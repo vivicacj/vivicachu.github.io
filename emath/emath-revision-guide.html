@@ -77,17 +77,15 @@
         .week-section:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(0,0,0,0.15); }
         .week-header { background: linear-gradient(135deg, #74b9ff, #0984e3); color: white; padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
         
-        /* [修正] 恢复了正确的折叠动画样式 */
         .week-content { max-height: 0; overflow: hidden; padding: 0 20px; transition: max-height 0.4s ease-out, padding 0.4s ease-out; }
         .week-content.active { max-height: 2000px; /* A large value to accommodate content */ padding: 20px; }
         
         .task-table { width: 100%; border-collapse: collapse; }
         .task-row { border-bottom: 1px solid #ecf0f1; transition: background 0.2s ease; }
         .task-row:hover { background: #f8f9fa; }
-        .task-cell { padding: 20px; vertical-align: top; border-right: 1px solid #ecf0f1; }
-        .task-cell:last-child { border-right: none; }
+        .task-cell { padding: 15px; vertical-align: top; }
         .date-cell { font-weight: 600; color: #2c3e50; background: #f8f9fa; width: 120px; text-align: center; }
-        .mission-cell { font-weight: 600; color: #e74c3c; width: 200px; }
+        .mission-cell { font-weight: 600; color: #e74c3c; width: 220px; }
         .task-checkbox { margin-right: 10px; transform: scale(1.2); cursor: pointer; }
         .task-completed { text-decoration: line-through; opacity: 0.7; background: #d5f4e6; }
 
@@ -119,14 +117,16 @@
         .ai-table .status-toggle { transition: transform 0.2s ease; }
         .ai-table .status-toggle:hover { transform: scale(1.2); }
 
-        .ai-task-queue-section { background: #ffffff; padding: 25px; border-radius: 15px; margin-top: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .ai-task-queue-section h3 { margin-bottom: 20px; color: #2c3e50; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
-        .ai-task-queue-section ul { list-style-type: none; padding-left: 0; }
-        .ai-task-queue-section li { margin-bottom: 15px; }
-        .ai-task-queue-section strong { color: #667eea; }
-
         .floating-action { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, #ff7675, #d63031); color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 1.5em; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: all 0.3s ease; }
         .floating-action:hover { transform: scale(1.1); }
+
+        .week-objective {
+            background-color: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
 
         @media (max-width: 768px) {
             .title { font-size: 1.8em; }
@@ -184,37 +184,39 @@
         <!-- 第一周 -->
         <div class="week-section">
             <div class="week-header" onclick="toggleWeek(1)">
-                <span>🔥 第一周：清扫短板周 (Sep 22 - Sep 28)</span>
+                <span>🔥 第一周：清扫短板周 (9月22日 - 9月28日)</span>
                 <span class="expand-icon" id="icon-1">▼</span>
             </div>
             <div class="week-content" id="week-1">
+                <div class="week-objective">
+                    <strong>核心目标:</strong> 完成所有题库的首次练习，暴露所有问题点。
+                </div>
                 <div class="week-tabs">
                     <button class="week-tab-button active" onclick="showWeekTab(1, 'student')">学生任务视图</button>
                     <button class="week-tab-button" onclick="showWeekTab(1, 'ai')">AI仪表盘</button>
                 </div>
                 <div id="week-1-student" class="tab-pane active">
                     <table class="task-table">
-                        <!-- [修正] 恢复了原始详细的学生任务HTML -->
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周一<br>Sep 22</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">代数综合处理 (P1)</td><td class="task-cell"><strong>1.5小时:</strong> 完成"代数"黄金题库中练习1 (代数分数)和练习2 (解方程)的所有题目</td><td class="task-cell">1. 一份完整的答卷<br>2. 对照答案，用红笔订正<br>3. 为每一道错题填写"错误分析卡"</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周二<br>Sep 23</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">代数综合处理 (P2)</td><td class="task-cell"><strong>1.5小时:</strong> 完成"代数"黄金题库中练习3 (公式变形)和练习4 (联立方程)的所有题目</td><td class="task-cell">1. 完整的答卷 + 红笔订正<br>2. 填写错题的"错误分析卡"</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周三<br>Sep 24</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">二次函数 (P1)</td><td class="task-cell"><strong>1.5小时:</strong> 完成"二次函数"黄金题库中Practice 1 (配方法)的所有题目。严格按照SOP书写步骤</td><td class="task-cell">1. 检查步骤是否与SOP完全一致<br>2. 修正所有计算失误</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周四<br>Sep 25</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">二次函数 (P2)</td><td class="task-cell"><strong>2小时:</strong> 完成Practice 2 (图像绘制)和Practice 3 (综合应用)。特别注意Q20 (CCHY)的综合性</td><td class="task-cell">1. 确保所有图像标注清晰 (顶点、截距、对称轴)<br>2. 能够口头复述Q18, Q19的解题逻辑</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周五<br>Sep 26</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">核心题型复盘</td><td class="task-cell"><strong>1.5小时:</strong> 回顾本周所有错题的"错误分析卡"。重新做一遍所有被标记为🔴高优先级的题目</td><td class="task-cell">1. 第二次做题的正确率应达到90%以上<br>2. 能不看SOP，独立写出规范步骤</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周六<br>Sep 27</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">卫星题型马拉松</td><td class="task-cell"><strong>2小时:</strong> 快速完成第三批卫星题型（坐标几何、测量/空间几何）的练习</td><td class="task-cell">1. 目标：正确率达到95%<br>2. 制作一份包含所有Mensuration公式的闪卡</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周日<br>Sep 28</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">休息与周度总结</td><td class="task-cell"><strong>30分钟:</strong> 更新个人能力雷达图。对比上周，看看"代数精度"、"程序执行力"是否有提升</td><td class="task-cell">一份更新后的雷达图，为第二周的训练指明方向</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周一</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">代数综合处理</td><td class="task-cell">完成 `G3 EOY|Comprehensive Algebraic Manipulation` 练习包，并为错题填写“错误分析卡”。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周二</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">卫星题型 (第一批)</td><td class="task-cell">完成 `G3 EOY|Indices & Standard Form` 和 `G3 EOY|Inequalities` 两个练习包。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周三</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">二次函数与图像</td><td class="task-cell">完成 `G3 EOY|Quadratic Functions & Graphs` 练习包，并为错题填写“错误分析卡”。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周四</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">卫星题型 (第二批)</td><td class="task-cell">完成 `G3 EOY|Ratio & Percentage...` 和 `G3 EOY|Statistics & Probability` 两个练习包。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周五</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">几何证明与相似/全等</td><td class="task-cell">完成 `G3 EOY|Geometric Proofs...` 练习包，并为错题填写“错误分析卡”。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周六</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">卫星题型 (第三批)</td><td class="task-cell">完成 `G3 EOY|Coordinate Geometry` 和 `G3 EOY|Mensuration` 两个练习包。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周日</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">周度总结</td><td class="task-cell">更新个人能力雷达图，找出本周暴露出的最主要的3个弱点。</td></tr>
                     </table>
                 </div>
                 <div id="week-1-ai" class="tab-pane">
                     <table class="ai-table">
                         <thead><tr><th>日期</th><th>核心任务</th><th>具体资源/练习清单</th><th style="text-align:center;">状态</th></tr></thead>
                         <tbody>
-                            <tr><td><strong>周一</strong></td><td><strong>代数综合处理 (P1)</strong></td><td>👨‍🎓 <strong>学生练习:</strong> 完成“代数黄金题库”中的 <strong>Q1-Q13</strong><br>👨‍🎓 <strong>学生任务:</strong> 为所有错题填写“错误分析卡”。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
-                            <tr><td><strong>周二</strong></td><td><strong>代数综合处理 (P2)</strong></td><td>👨‍🎓 <strong>学生练习:</strong> 完成“代数黄金题库”中的 <strong>Q14-Q21</strong><br>👨‍🎓 <strong>学生任务:</strong> 为所有错题填写“错误分析卡”。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
-                            <tr><td><strong>周三</strong></td><td><strong>二次函数 (P1)</strong></td><td>📝 **AI生成:** M-P-C框架, SOPs, 深度解析 (已交付)。<br>👨‍🎓 **学生练习:** 完成“二次函数黄金题库”中的 <strong>Practice 1 (Q1-Q8)</strong>。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">✅</span></td></tr>
-                            <tr><td><strong>周四</strong></td><td><strong>二次函数 (P2)</strong></td><td>👨‍🎓 **学生练习:** 完成“二次函数黄金题库”中的 <strong>Practice 2 & 3 (Q9-Q20)</strong>。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
-                            <tr><td><strong>周五</strong></td><td><strong>核心题型复盘</strong></td><td>👨‍🎓 **学生任务:** 复习本周所有“错误分析卡”，并**重做**所有被标记为`🔴高优先级`的题目。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
-                            <tr><td><strong>周六</strong></td><td><strong>卫星题型马拉松</strong></td><td>📝 **AI生成:** “坐标几何”与“测量/空间几何”的黄金题库。<br>👨‍🎓 **学生练习:** 完成第三批卫星题型练习包。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">✅</span></td></tr>
-                            <tr><td><strong>周日</strong></td><td><strong>周度总结</strong></td><td>👨‍🎓 **学生任务:** 更新个人能力雷达图，对比上周进展。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周一</strong></td><td><strong>代数综合处理</strong></td><td>👨‍🎓 Dennis任务:ard Form` 和 `G3 EOY|Inequalities` 两个练习包。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周三</strong></td><td><strong>二次函数与图像</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Quadratic Functions & Graphs` 练习包。<br>👨‍🎓 Dennis任务: 为所有错题填写“错误分析卡”。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周四</strong></td><td><strong>卫星题型 (第二批)</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Ratio & Percentage...` 和 `G3 EOY
+                              |Statistics & Probability` 两个练习包。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周五</strong></td><td><strong>几何证明与相似/全等</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Geometric Proofs...` 练习包。<br>👨‍🎓 Dennis任务: 为所有错题填写“错误分析卡”。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周六</strong></td><td><strong>卫星题型 (第三批)</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Coordinate Geometry` 和 `G3 EOY|Mensuration` 两个练习包。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周日</strong></td><td><strong>周度总结</strong></td><td>👨‍🎓 Dennis任务: 更新个人能力雷达，找出本周暴露出的最主要的3个弱点。<br>🔄 AI任务: 基于Dennis的答卷，为><span class="status-toggle" onclick="toggleAIStatus(this)">🔄</span></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -224,37 +226,39 @@
         <!-- 第二周 -->
         <div class="week-section">
              <div class="week-header" onclick="toggleWeek(2)">
-                <span>⚡ 第二周：核心强化与速度周 (Sep 29 - Oct 5)</span>
+                <span>⚡ 第二周：核心强化与速度周 (9月29日 - 10月5日)</span>
                 <span class="expand-icon" id="icon-2">▼</span>
             </div>
             <div class="week-content" id="week-2">
+                <div class="week-objective">
+                    <strong>核心目标:</strong> 针对核心题型的弱点进行强化，并提升解题速度。
+                </div>
                 <div class="week-tabs">
                     <button class="week-tab-button active" onclick="showWeekTab(2, 'student')">学生任务视图</button>
                     <button class="week-tab-button" onclick="showWeekTab(2, 'ai')">AI仪表盘</button>
                 </div>
                 <div id="week-2-student" class="tab-pane active">
                     <table class="task-table">
-                        <!-- [修正] 恢复了原始详细的学生任务HTML -->
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周一<br>Sep 29</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">三角函数SOP强化</td><td class="task-cell"><strong>2小时:</strong> 计时重做“三角函数”黄金16题中的所有偶数题。严格套用SOP 1, 2, 3</td><td class="task-cell">1. 计算总耗时，分析哪类题（2D/3D）耗时最长<br>2. 检查是否有钝角陷阱或最短距离模型忘记使用</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周二<br>Sep 30</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">Paper 1 模拟</td><td class="task-cell"><strong>2小时:</strong> (考试前一天) 从11份真题中，随机抽取一份完整的Paper 1进行限时模拟考试</td><td class="task-cell">1. 真实评分，找出失分点<br>2. 分析失分是来自核心题型还是卫星题型</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周三<br>Oct 1</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">Paper 1 考试</td><td class="task-cell"><strong>考试日</strong> - 正式考试</td><td class="task-cell">放松心态，正常发挥。相信你的训练！</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周四<br>Oct 2</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">几何证明SOP强化</td><td class="task-cell"><strong>2小时:</strong> 计时重做“几何证明”黄金12题中的所有奇数题</td><td class="task-cell">1. 检查书写格式是否完美复刻SOP<br>2. 检查理由 (Reasons)是否完整、准确</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周五<br>Oct 3</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">二次函数变式训练</td><td class="task-cell"><strong>2小时:</strong> 完成所有“二次函数变式训练题”</td><td class="task-cell">1. 重点分析概念结合型和反向提问型的题目，检验C层理解</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周六<br>Oct 4</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">综合大题计时训练</td><td class="task-cell"><strong>2.5小时:</strong> 从11份Paper 2中，只挑选最后两道大题组成“压轴题集”，进行连续计时攻克</td><td class="task-cell">1. 训练在高压、高复杂度下的抗压能力和时间分配能力</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周日<br>Oct 5</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">休息与周度总结</td><td class="task-cell"><strong>30分钟:</strong> 最后一次更新雷达图。全面评估自己的各项能力，找出最后冲刺的1-2个关键点</td><td class="task-cell">最终版个人能力雷达图</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周一</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">三角函数</td><td class="task-cell">计时重做 `G3 EOY|Trigonometry...` 中的所有错题和高分值题。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周二</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">Paper 1 模拟</td><td class="task-cell">独立完成一份完整的2023年Paper 1。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周三</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">Paper 1 考试</td><td class="task-cell">参加正式考试。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周四</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">几何与二次函数</td><td class="task-cell">计时重做 `G3 EOY|Geometric Proofs...` 和 `G3 EOY|Quadratic Functions...` 中的所有错题。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周五</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">高阶变式训练</td><td class="task-cell">完成AI生成的变式训练包。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周六</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">压轴题计时训练</td><td class="task-cell">完成AI生成的压轴题集。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周日</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">周度总结</td><td class="task-cell">最后一次更新个人能力雷达图。</td></tr>
                     </table>
                 </div>
                 <div id="week-2-ai" class="tab-pane">
                      <table class="ai-table">
                         <thead><tr><th>日期</th><th>核心任务</th><th>具体资源/练习清单</th><th style="text-align:center;">状态</th></tr></thead>
                         <tbody>
-                            <tr><td><strong>周一</strong></td><td><strong>三角函数SOP强化</strong></td><td>📝 **AI生成:** “三角函数”的M-P-C框架, SOPs, 深度解析 (已交付)。<br>👨‍🎓 **学生练习:** **计时**重做“三角函数黄金16题”中的 **Q2, Q4, Q6, Q8, Q10, Q12, Q14, Q16**。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">✅</span></td></tr>
-                            <tr><td><strong>周二</strong></td><td><strong>Paper 1 模拟</strong></td><td>👨‍🎓 **学生任务:** 独立完成一份完整的 **2023年 Paper 1** (e.g., Anglo-Chinese School)。<br>📝 **AI生成:** 针对该份模考答卷的**快速诊断报告**。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
-                            <tr><td><strong>周三</strong></td><td><strong>Paper 1 考试</strong></td><td>👨‍🎓 **学生任务:** 参加正式考试。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
-                            <tr><td><strong>周四</strong></td><td><strong>几何证明SOP强化</strong></td><td>📝 **AI生成:** “几何证明”的M-P-C, SOPs, 深度解析 (已交付)。<br>👨‍🎓 **学生练习:** **计时**重做“几何证明黄金12题”中的 **Q1, Q3, Q5, Q7, Q9, Q11**。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">✅</span></td></tr>
-                            <tr><td><strong>周五</strong></td><td><strong>二次函数变式训练</strong></td><td>📝 **AI生成:** 基于“二次函数”母题，生成一份包含**10-12道高质量变式题**的训练包。<br>👨‍🎓 **学生练习:** 完成上述“二次函数变式训练包”。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔄</span></td></tr>
-                            <tr><td><strong>周六</strong></td><td><strong>综合大题计时训练</strong></td><td>📝 **AI生成:** 从11份Paper 2中，提取**最后两道大题**，组成一份“压轴题集”。<br>👨‍🎓 **学生练习:** 完成“压轴题集”的计时训练。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔄</span></td></tr>
-                            <tr><td><strong>周日</strong></td><td><strong>周度总结</strong></td><td>👨‍🎓 **学生任务:** 最后一次更新个人能力雷达图。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周一</strong></td><td><strong>三角函数</strong></td><td>👨‍🎓 Dennis任务: 计时重做 `G3 EOY|Trigonometry Application in Context` 中的所有错题和高分值题。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周二</strong></td><td><strong>Paper 1 模拟</strong></td><td>👨‍🎓 Dennis任务: 独立完成一份完整的2023年Paper 1。<br>🔄 AI任务: 为您生成 `[中文]_Dennis_P1_Mock_Exam_快速诊断报告.pdf`。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周三</strong></td><td><strong>Paper 1 考试</strong></td><td>👨‍🎓 Dennis任务: 参加正式考试。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周四</strong></td><td><strong>几何与二次函数</strong></td><td>👨‍🎓 Dennis任务: 计时重做 `G3 EOY|Geometric Proofs...` 和 `G3 EOY|Quadratic Functions...` 中的所有错题。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周五</strong></td><td><strong>高阶变式训练</strong></td><td>🔄 AI任务: 生成 `[EN]_Variation_Drills_All_Core_Topics.pdf` (包含四大核心题型的变式)。<br>👨‍🎓 Dennis任务: 完成上述变式训练包。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔄</span></td></tr>
+                            <tr><td><strong>周六</strong></td><td><strong>压轴题计时训练</strong></td><td>🔄 AI任务: 生成 `[EN]_Final_Boss_Drill_Package.pdf` (精选Paper 2压轴题)。<br>👨‍🎓 Dennis任务: 完成压轴题集的计时训练。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔄</span></td></tr>
+                            <tr><td><strong>周日</strong></td><td><strong>周度总结</strong></td><td>👨‍🎓 Dennis任务: 最后一次更新个人能力雷达图，确认自己的优势和考前需要注意的细节。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -264,7 +268,7 @@
         <!-- 第三周 -->
         <div class="week-section">
             <div class="week-header" onclick="toggleWeek(3)">
-                <span>🚀 第三周：模拟实战与状态调整周 (Oct 6 - Oct 7)</span>
+                <span>🚀 第三周：模拟实战与状态调整周 (10月6日 - 10月7日)</span>
                 <span class="expand-icon" id="icon-3">▼</span>
             </div>
             <div class="week-content" id="week-3">
@@ -274,40 +278,22 @@
                 </div>
                 <div id="week-3-student" class="tab-pane active">
                     <table class="task-table">
-                        <!-- [修正] 恢复了原始详细的学生任务HTML -->
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周一<br>Oct 6</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">Paper 2 模拟</td><td class="task-cell"><strong>2.5小时:</strong> (考试前一天) 挑选一份难度最高的2023年Paper 2进行完整限时模拟</td><td class="task-cell">1. 只订正，不纠结。目标是熟悉流程和压力<br>2. 检查时间分配是否合理</td></tr>
-                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周二<br>Oct 7</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">Paper 2 考试</td><td class="task-cell"><strong>最终决战</strong> - 正式考试</td><td class="task-cell"><strong>考前提醒:</strong><br>1. 检查计算器模式 (DEG)<br>2. 读题时用笔圈出关键词<br>3. 遇到难题果断跳过，先拿稳基本分<br>4. <strong>相信你的训练！</strong> 你已经准备好了</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周一</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">Paper 2 模拟</td><td class="task-cell">独立完成一份完整的2023年Paper 2。</td></tr>
+                        <tr class="task-row"><td class="task-cell date-cell"><span class="status-indicator status-pending"></span>周二</td><td class="task-cell mission-cell"><input type="checkbox" class="task-checkbox">Paper 2 考试</td><td class="task-cell">参加正式考试。</td></tr>
                     </table>
                 </div>
                 <div id="week-3-ai" class="tab-pane">
                      <table class="ai-table">
                         <thead><tr><th>日期</th><th>核心任务</th><th>具体资源/练习清单</th><th style="text-align:center;">状态</th></tr></thead>
                         <tbody>
-                            <tr><td><strong>周一</strong></td><td><strong>Paper 2 模拟</strong></td><td>👨‍🎓 **学生任务:** 独立完成一份完整的 **2023年 Paper 2** (e.g., Beatty Secondary School)。<br>📝 **AI生成:** 针对该份模考的**“考前速览”报告**，只指出需要最后注意的1-2个关键点。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
-                            <tr><td><strong>周二</strong></td><td><strong>Paper 2 考试</strong></td><td>👨‍🎓 **学生任务:** 参加正式考试。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周一</strong></td><td><strong>Paper 2 模拟</strong></td><td>👨‍🎓 Dennis任务: 独立完成一份完整的2023年Paper 2。<br>🔄 AI任务: 为您生成 `[中文]_Dennis_P2_Mock_Exam_考前最终提示.pdf`。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
+                            <tr><td><strong>周二</strong></td><td><strong>Paper 2 考试</strong></td><td>👨‍🎓 Dennis任务: 参加正式考试。</td><td class="status-cell"><span class="status-toggle" onclick="toggleAIStatus(this)">🔲</span></td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
         
-        <div class="ai-task-queue-section">
-            <h3>当前AI任务队列</h3>
-            <ul>
-                <li><strong>1. 二次函数变式训练包 (Week 2, Friday):</strong><br>
-                    <span>状态: 🔄 <strong>进行中</strong></span><br>
-                    <span>描述: 我将基于“二次函数黄金题库”中的母题，为您设计一份包含情境迁移、反向提问、概念结合等类型的变式训练题。</span>
-                </li>
-                 <li><strong>2. 综合大题计时训练集 (Week 2, Saturday):</strong><br>
-                    <span>状态: 🔄 <strong>进行中</strong></span><br>
-                    <span>描述: 我将从所有2022和2023年的Paper 2中，筛选出10道最具代表性的压轴大题，供您进行高强度综合训练。</span>
-                </li>
-                 <li><strong>3. Paper 1 & 2 模拟考快速诊断报告 (Week 2, Tue & Week 3, Mon):</strong><br>
-                    <span>状态: 🔲 <strong>待启动</strong></span><br>
-                    <span>描述: 在您完成模拟考后，我将准备好为您的答卷生成简明扼要的诊断报告。</span>
-                </li>
-            </ul>
-        </div>
     </div>
 
     <button class="floating-action" onclick="resetProgress()" title="重置进度">🔄</button>
