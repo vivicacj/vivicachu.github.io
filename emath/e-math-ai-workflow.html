@@ -10,7 +10,7 @@
             --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --text-primary: #333;
             --text-secondary: #555;
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.9); /* Slightly more opaque for better readability */
             --shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
             --border-radius: 20px;
             --highlight-glow: 0 0 15px 5px rgba(255, 107, 107, 0.7);
@@ -19,33 +19,65 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
             margin: 0;
-            padding: 25px;
-            background: var(--bg-gradient);
+            background-color: #f4f7f9; /* Changed body background for better contrast with elements */
             min-height: 100vh;
             color: var(--text-primary);
             box-sizing: border-box;
+        }
+
+        /* [新增] 面包屑导航样式 */
+        .breadcrumbs {
+            background-color: #ffffff;
+            padding: 12px 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-size: 0.9em;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .breadcrumbs a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumbs span {
+            margin: 0 8px;
+            color: #999;
+        }
+        .breadcrumbs .current-page {
+            color: #333;
+            font-weight: 500;
         }
         
         .container {
             max-width: 1800px;
             margin: 0 auto;
+            padding: 25px;
         }
         
         header {
             text-align: center;
             margin-bottom: 25px;
-            color: white;
+            color: #333; /* Adjusted for light background */
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
         
         h1 {
             font-size: 2.8em;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .subtitle {
             font-size: 1.2em;
             opacity: 0.9;
+            color: var(--text-secondary);
         }
         
         .workflow-interface {
@@ -70,91 +102,21 @@
             overflow-x: auto;
         }
         
-        /* Info Container Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid #ddd;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .tab-button {
-            padding: 10px 15px;
-            cursor: pointer;
-            border: none;
-            background: none;
-            font-size: 1em;
-            font-weight: 600;
-            color: var(--text-secondary);
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        .tab-button::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #667eea;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-        .tab-button.active {
-            color: #667eea;
-        }
-        .tab-button.active::after {
-            transform: scaleX(1);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .info-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .info-item {
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            position: relative;
-            border-left: 4px solid transparent;
-        }
-        .info-item.highlight {
-            background-color: #ffecd2;
-            transform: translateX(5px);
-            border-left-color: #d35400;
-        }
-        .info-item strong {
-            display: block;
-            font-size: 0.9em;
-            color: #764ba2;
-        }
-        .info-item p {
-            margin: 4px 0 0 0;
-            font-size: 0.95em;
-        }
-        
-        /* Legend styling */
-        .legend {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
+        /* ... [其余样式保持不变] ... */
+        .tabs { display: flex; border-bottom: 2px solid #ddd; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-button { padding: 10px 15px; cursor: pointer; border: none; background: none; font-size: 1em; font-weight: 600; color: var(--text-secondary); position: relative; transition: color 0.3s ease; }
+        .tab-button::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px; background: #667eea; transform: scaleX(0); transition: transform 0.3s ease; }
+        .tab-button.active { color: #667eea; }
+        .tab-button.active::after { transform: scaleX(1); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .info-list { list-style: none; padding: 0; margin: 0; }
+        .info-item { padding: 12px; border-radius: 8px; margin-bottom: 8px; transition: background-color 0.3s ease, transform 0.3s ease; position: relative; border-left: 4px solid transparent; }
+        .info-item.highlight { background-color: #ffecd2; transform: translateX(5px); border-left-color: #d35400; }
+        .info-item strong { display: block; font-size: 0.9em; color: #764ba2; }
+        .info-item p { margin: 4px 0 0 0; font-size: 0.95em; }
+        .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
         .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9em; }
         .legend-color { width: 15px; height: 15px; border-radius: 4px; border: 2px solid; }
         .start-color { background-color: #FFF3E0; border-color: #F57C00; }
@@ -165,29 +127,20 @@
         .student-color { background-color: #E8F8F5; border-color: #1ABC9C; }
         .teacher-color { background-color: #FEF9E7; border-color: #F1C40F; }
         .data-color { background-color: #F2F3F4; border-color: #839192; }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .workflow-interface {
-                grid-template-columns: 1fr;
-            }
-        }
-        @media (max-width: 768px) {
-            body { padding: 15px; }
-            h1 { font-size: 2em; }
-            .diagram-container, .info-container { padding: 20px; }
-            .tabs { justify-content: space-around; }
-            .tab-button { padding: 8px 10px; font-size: 0.9em; }
-        }
-
-        /* Mermaid node highlight style */
-        .node.highlight > rect, .node.highlight > polygon {
-            filter: drop-shadow(var(--highlight-glow));
-        }
+        @media (max-width: 1200px) { .workflow-interface { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { body { padding: 0; } .container { padding: 15px; } h1 { font-size: 2em; } .diagram-container, .info-container { padding: 20px; } .tabs { justify-content: space-around; } .tab-button { padding: 8px 10px; font-size: 0.9em; } }
+        .node.highlight > rect, .node.highlight > polygon { filter: drop-shadow(var(--highlight-glow)); }
 
     </style>
 </head>
 <body>
+    <!-- [新增] 面包屑导航栏 -->
+    <nav class="breadcrumbs">
+        <a href="../index.html">平台主页</a>
+        <span>&gt;</span>
+        <span class="current-page">AI教学工作流程</span>
+    </nav>
+
     <div class="container">
         <header>
             <h1>E-Math AI教学工作流程图</h1>
@@ -198,7 +151,7 @@
             <div class="diagram-container">
                  <div id="mermaid-diagram" class="mermaid">
                     flowchart TB
-                        %% 定义样式
+                        %% ... [Mermaid图表代码保持不变] ...
                         classDef start fill:#FFF3E0,stroke:#F57C00,stroke-width:3px,color:#E65100;
                         classDef ai_process fill:#E3F2FD,stroke:#1E88E5,stroke-width:2px,color:#0D47A1;
                         classDef user_action fill:#E8F5E9,stroke:#388E3C,stroke-width:2px,color:#1B5E20;
@@ -207,39 +160,28 @@
                         classDef studentStyle fill:#E8F8F5,stroke:#1ABC9C,stroke-width:2px,color:#0D7377;
                         classDef teacherStyle fill:#FEF9E7,stroke:#F1C40F,stroke-width:2px,color:#B7950B;
                         classDef dataStyle fill:#F2F3F4,stroke:#839192,stroke-width:2px,color:#424949;
-                        
-                        %% 起始点
                         START[🎯 开始<br/>准备11份E-Math真题试卷]:::start
-                        
-                        %% Stage 1-4 内部为 LR (从左至右)
                         subgraph PHASE1 ["🔍 STAGE 1: 宏观分析与框架搭建"]
                             direction LR
                             A1[👤 您的操作<br/>上传试卷文件<br/>执行通用学科深度分析Prompt]:::user_action --> A2[🤖 AI分析<br/>启动五维交叉矩阵分析<br/>• 构建考试解剖全景图<br/>• 识别核心/卫星题型<br/>• 生成M-P-C知识框架<br/>• 定义核心能力雷达图]:::ai_process --> A3[📊 阶段一成果<br/>宏观学科分析报告]:::output
                         end
-                        
                         subgraph PHASE2 ["📚 STAGE 2: 专项突破包生成与验证"]
                             direction LR
                             B1[👤 您的选择<br/>选择核心题型深化<br/>如：三角函数]:::user_action --> B2[🤖 AI提取<br/>执行专项提取Prompt<br/>从全景图提取题型原文]:::ai_process --> B3[📝 初步成果<br/>专项练习集V1]:::output --> B4[👤 关键质检<br/>人工核查对比PDF<br/>修正AI提取错误<br/>打造100%准确题库]:::user_action --> B5[🏆 阶段二成果<br/>黄金题库PDF<br/>如：三角函数黄金16题]:::final_product
                         end
-                        
                         subgraph PHASE3 ["🎯 STAGE 3: 学生诊断与双轨报告"]
                             direction LR
                             C1[👤 分发作业<br/>将黄金题库给学生作答]:::user_action --> C2[📋 学生答卷<br/>Dennis的完成作品]:::dataStyle --> C3[👤 上传分析<br/>上传学生答卷<br/>执行深度诊断Prompt]:::user_action --> C4[🤖 错题分析<br/>启动错题时光机<br/>• 错误模式归因<br/>• M-P-C层级诊断<br/>• 生成双轨报告]:::ai_process --> C5[📈 阶段三成果<br/>教师端：战略仪表盘<br/>学生端：个人行动手册]:::output
                         end
-                        
                         subgraph PHASE4 ["🛠️ STAGE 4: 高阶教学资源创造"]
                             direction LR
                             D1[👤 确认执行<br/>确认诊断报告<br/>执行SOP构建Prompt]:::user_action --> D2[🤖 SOP构建<br/>基于黄金题库<br/>生成解题模型SOP]:::ai_process --> D3[📋 SOP文档<br/>核心解题模型]:::output --> D4[👤 SOP确认<br/>确认SOP文档<br/>执行实战模拟器Prompt]:::user_action --> D5[🤖 案例匹配<br/>为SOP匹配典型案例<br/>完善实战内容]:::ai_process --> D6[🏆 阶段四成果<br/>Flashcard教学工具<br/>含实战案例]:::final_product
                         end
-                        
-                        %% Stage 5 内部保持默认的 TB (从上至下)
                         subgraph PHASE5 ["🔄 STAGE 5: 学习闭环与未来迭代"]
                             E1[🎓 学生学习<br/>Dennis使用行动手册<br/>和SOP Flashcard学习]:::studentStyle --> E3
                             E2[👨‍🏫 教师跟踪<br/>使用战略仪表盘<br/>追踪学习进展]:::teacherStyle --> E3[👤 高阶设计<br/>执行变式训练设计Prompt<br/>或趋势预测Prompt]:::user_action
                             E3 --> E4[🤖 生成优化<br/>生成变式题库或<br/>跨年度对比报告]:::ai_process --> E5[🚀 持续成果<br/>新学习材料<br/>战略洞察报告]:::final_product
                         end
-                        
-                        %% 在所有 subgraph 定义完毕后，定义它们之间的连接
                         START --> A1
                         A3 --> B1
                         B5 --> C1
@@ -251,6 +193,7 @@
             </div>
             
             <div class="info-container">
+                <!-- ... [信息栏和图例HTML保持不变] ... -->
                 <div class="tabs">
                     <button class="tab-button active" data-tab="1">阶段 1</button>
                     <button class="tab-button" data-tab="2">阶段 2</button>
@@ -328,6 +271,7 @@
     </div>
     
     <script>
+        // ... [JavaScript交互代码保持不变] ...
         mermaid.initialize({
             startOnLoad: true,
             theme: 'default',
@@ -337,18 +281,13 @@
                 curve: 'basis'
             }
         });
-
-        // Wait for the DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', () => {
-            // Tab functionality
             const tabs = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
-
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     tabs.forEach(item => item.classList.remove('active'));
                     tab.classList.add('active');
-
                     const targetTab = tab.getAttribute('data-tab');
                     tabContents.forEach(content => {
                         content.classList.remove('active');
@@ -358,12 +297,9 @@
                     });
                 });
             });
-            
-            // Function to handle all interactions
             const setupInteractions = () => {
                 const infoItems = document.querySelectorAll('.info-item');
                 const diagramNodes = document.querySelectorAll('#mermaid-diagram .node');
-
                 const nodeToStageMap = {
                     'A1': '1', 'A2': '1', 'A3': '1',
                     'B1': '2', 'B2': '2', 'B3': '2', 'B4': '2', 'B5': '2',
@@ -371,19 +307,15 @@
                     'D1': '4', 'D2': '4', 'D3': '4', 'D4': '4', 'D5': '4', 'D6': '4',
                     'E1': '5', 'E2': '5', 'E3': '5', 'E4': '5', 'E5': '5', 'START': '1'
                 };
-                
-                // Mouse over info item -> highlight diagram node
                 infoItems.forEach(item => {
                     const nodeId = item.getAttribute('data-node-id');
                     if (!nodeId) return;
-
                     item.addEventListener('mouseover', () => {
                         const targetNode = document.getElementById(nodeId);
                         if (targetNode) {
                             targetNode.classList.add('highlight');
                         }
                     });
-
                     item.addEventListener('mouseout', () => {
                         const targetNode = document.getElementById(nodeId);
                         if (targetNode) {
@@ -391,23 +323,17 @@
                         }
                     });
                 });
-
-                // Mouse over diagram node -> highlight info item
                 diagramNodes.forEach(node => {
                     const nodeId = node.id;
                     const targetItem = document.querySelector(`.info-item[data-node-id="${nodeId}"]`);
-
                     if (targetItem) {
                         node.addEventListener('mouseover', () => {
                             targetItem.classList.add('highlight');
                             targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                         });
-
                         node.addEventListener('mouseout', () => {
                             targetItem.classList.remove('highlight');
                         });
-
-                        // Click on node -> switch tab
                         node.addEventListener('click', () => {
                             const stage = nodeToStageMap[nodeId];
                             if(stage) {
@@ -417,21 +343,18 @@
                     }
                 });
             };
-
-            // Using a MutationObserver is more reliable than a timeout for waiting on Mermaid
             const observer = new MutationObserver((mutationsList, obs) => {
                 for(const mutation of mutationsList) {
                     if (mutation.type === 'childList') {
                         const diagram = document.getElementById('mermaid-diagram');
                         if (diagram && diagram.hasAttribute('data-processed')) {
                             setupInteractions();
-                            obs.disconnect(); // We're done, stop observing
+                            obs.disconnect(); 
                             return;
                         }
                     }
                 }
             });
-
             observer.observe(document.body, { childList: true, subtree: true });
         });
     </script>
