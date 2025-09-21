@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Math AI教学工作流程图 (最终修正版)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-primary: #333;
+            --text-secondary: #555;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            --border-radius: 20px;
+            --highlight-glow: 0 0 15px 5px rgba(255, 107, 107, 0.7);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 25px;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-primary);
+            box-sizing: border-box;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .workflow-interface {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            align-items: flex-start;
+        }
+        
+        .diagram-container, .info-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        #mermaid-diagram {
+            overflow-x: auto;
+        }
+        
+        /* Info Container Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-button {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #667eea;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .tab-button.active {
+            color: #667eea;
+        }
+        .tab-button.active::after {
+            transform: scaleX(1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .info-item {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            border-left: 4px solid transparent;
+        }
+        .info-item.highlight {
+            background-color: #ffecd2;
+            transform: translateX(5px);
+            border-left-color: #d35400;
+        }
+        .info-item strong {
+            display: block;
+            font-size: 0.9em;
+            color: #764ba2;
+        }
+        .info-item p {
+            margin: 4px 0 0 0;
+            font-size: 0.95em;
+        }
+        
+        /* Legend styling */
+        .legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9em; }
+        .legend-color { width: 15px; height: 15px; border-radius: 4px; border: 2px solid; }
+        .start-color { background-color: #FFF3E0; border-color: #F57C00; }
+        .ai-color { background-color: #E3F2FD; border-color: #1E88E5; }
+        .user-color { background-color: #E8F5E9; border-color: #388E3C; }
+        .output-color { background-color: #FCE4EC; border-color: #D81B60; }
+        .final-color { background-color: #F3E5F5; border-color: #8E24AA; }
+        .student-color { background-color: #E8F8F5; border-color: #1ABC9C; }
+        .teacher-color { background-color: #FEF9E7; border-color: #F1C40F; }
+        .data-color { background-color: #F2F3F4; border-color: #839192; }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .workflow-interface {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            h1 { font-size: 2em; }
+            .diagram-container, .info-container { padding: 20px; }
+            .tabs { justify-content: space-around; }
+            .tab-button { padding: 8px 10px; font-size: 0.9em; }
+        }
+
+        /* Mermaid node highlight style */
+        .node.highlight > rect, .node.highlight > polygon {
+            filter: drop-shadow(var(--highlight-glow));
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>E-Math AI教学工作流程图</h1>
+            <p class="subtitle">一个结合人工智能与专家经验的互动式教学解决方案</p>
+        </header>
+        
+        <main class="workflow-interface">
+            <div class="diagram-container">
+                 <div id="mermaid-diagram" class="mermaid">
+                    flowchart TB
+                        %% 定义样式
+                        classDef start fill:#FFF3E0,stroke:#F57C00,stroke-width:3px,color:#E65100;
+                        classDef ai_process fill:#E3F2FD,stroke:#1E88E5,stroke-width:2px,color:#0D47A1;
+                        classDef user_action fill:#E8F5E9,stroke:#388E3C,stroke-width:2px,color:#1B5E20;
+                        classDef output fill:#FCE4EC,stroke:#D81B60,stroke-width:2px,color:#880E4F;
+                        classDef final_product fill:#F3E5F5,stroke:#8E24AA,stroke-width:4px,color:#4A148C;
+                        classDef studentStyle fill:#E8F8F5,stroke:#1ABC9C,stroke-width:2px,color:#0D7377;
+                        classDef teacherStyle fill:#FEF9E7,stroke:#F1C40F,stroke-width:2px,color:#B7950B;
+                        classDef dataStyle fill:#F2F3F4,stroke:#839192,stroke-width:2px,color:#424949;
+                        
+                        %% 起始点
+                        START[🎯 开始<br/>准备11份E-Math真题试卷]:::start
+                        
+                        %% Stage 1-4 内部为 LR (从左至右)
+                        subgraph PHASE1 ["🔍 STAGE 1: 宏观分析与框架搭建"]
+                            direction LR
+                            A1[👤 您的操作<br/>上传试卷文件<br/>执行通用学科深度分析Prompt]:::user_action --> A2[🤖 AI分析<br/>启动五维交叉矩阵分析<br/>• 构建考试解剖全景图<br/>• 识别核心/卫星题型<br/>• 生成M-P-C知识框架<br/>• 定义核心能力雷达图]:::ai_process --> A3[📊 阶段一成果<br/>宏观学科分析报告]:::output
+                        end
+                        
+                        subgraph PHASE2 ["📚 STAGE 2: 专项突破包生成与验证"]
+                            direction LR
+                            B1[👤 您的选择<br/>选择核心题型深化<br/>如：三角函数]:::user_action --> B2[🤖 AI提取<br/>执行专项提取Prompt<br/>从全景图提取题型原文]:::ai_process --> B3[📝 初步成果<br/>专项练习集V1]:::output --> B4[👤 关键质检<br/>人工核查对比PDF<br/>修正AI提取错误<br/>打造100%准确题库]:::user_action --> B5[🏆 阶段二成果<br/>黄金题库PDF<br/>如：三角函数黄金16题]:::final_product
+                        end
+                        
+                        subgraph PHASE3 ["🎯 STAGE 3: 学生诊断与双轨报告"]
+                            direction LR
+                            C1[👤 分发作业<br/>将黄金题库给学生作答]:::user_action --> C2[📋 学生答卷<br/>Dennis的完成作品]:::dataStyle --> C3[👤 上传分析<br/>上传学生答卷<br/>执行深度诊断Prompt]:::user_action --> C4[🤖 错题分析<br/>启动错题时光机<br/>• 错误模式归因<br/>• M-P-C层级诊断<br/>• 生成双轨报告]:::ai_process --> C5[📈 阶段三成果<br/>教师端：战略仪表盘<br/>学生端：个人行动手册]:::output
+                        end
+                        
+                        subgraph PHASE4 ["🛠️ STAGE 4: 高阶教学资源创造"]
+                            direction LR
+                            D1[👤 确认执行<br/>确认诊断报告<br/>执行SOP构建Prompt]:::user_action --> D2[🤖 SOP构建<br/>基于黄金题库<br/>生成解题模型SOP]:::ai_process --> D3[📋 SOP文档<br/>核心解题模型]:::output --> D4[👤 SOP确认<br/>确认SOP文档<br/>执行实战模拟器Prompt]:::user_action --> D5[🤖 案例匹配<br/>为SOP匹配典型案例<br/>完善实战内容]:::ai_process --> D6[🏆 阶段四成果<br/>Flashcard教学工具<br/>含实战案例]:::final_product
+                        end
+                        
+                        %% Stage 5 内部保持默认的 TB (从上至下)
+                        subgraph PHASE5 ["🔄 STAGE 5: 学习闭环与未来迭代"]
+                            E1[🎓 学生学习<br/>Dennis使用行动手册<br/>和SOP Flashcard学习]:::studentStyle --> E3
+                            E2[👨‍🏫 教师跟踪<br/>使用战略仪表盘<br/>追踪学习进展]:::teacherStyle --> E3[👤 高阶设计<br/>执行变式训练设计Prompt<br/>或趋势预测Prompt]:::user_action
+                            E3 --> E4[🤖 生成优化<br/>生成变式题库或<br/>跨年度对比报告]:::ai_process --> E5[🚀 持续成果<br/>新学习材料<br/>战略洞察报告]:::final_product
+                        end
+                        
+                        %% 在所有 subgraph 定义完毕后，定义它们之间的连接
+                        START --> A1
+                        A3 --> B1
+                        B5 --> C1
+                        C5 --> D1
+                        D6 --> E1
+                        C5 --> E2
+                        E5 -.-> B1
+                </div>
+            </div>
+            
+            <div class="info-container">
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="1">阶段 1</button>
+                    <button class="tab-button" data-tab="2">阶段 2</button>
+                    <button class="tab-button" data-tab="3">阶段 3</button>
+                    <button class="tab-button" data-tab="4">阶段 4</button>
+                    <button class="tab-button" data-tab="5">阶段 5</button>
+                </div>
+                
+                <div id="tab-1" class="tab-content active">
+                    <h3>🔍 宏观分析与框架搭建</h3>
+                    <ul class="info-list">
+                        <li class="info-item" data-node-id="A1"><strong>您的操作</strong><p>上传试卷文件并执行通用学科深度分析Prompt。</p></li>
+                        <li class="info-item" data-node-id="A2"><strong>AI分析</strong><p>启动五维交叉矩阵分析，构建知识框架与能力雷达图。</p></li>
+                        <li class="info-item" data-node-id="A3"><strong>阶段一成果</strong><p>生成宏观学科分析报告。</p></li>
+                    </ul>
+                </div>
+                
+                <div id="tab-2" class="tab-content">
+                    <h3>📚 专项突破包生成与验证</h3>
+                    <ul class="info-list">
+                        <li class="info-item" data-node-id="B1"><strong>您的选择</strong><p>从宏观报告中选择一个核心题型进行深化。</p></li>
+                        <li class="info-item" data-node-id="B2"><strong>AI提取</strong><p>执行专项提取Prompt，从原试卷中精准抽取相关题目。</p></li>
+                        <li class="info-item" data-node-id="B3"><strong>初步成果</strong><p>AI生成专项练习集初稿 V1。</p></li>
+                        <li class="info-item" data-node-id="B4"><strong>关键质检</strong><p>您需要人工核查并修正，确保题库100%准确。</p></li>
+                        <li class="info-item" data-node-id="B5"><strong>阶段二成果</strong><p>产出经过验证的“黄金题库”PDF。</p></li>
+                    </ul>
+                </div>
+
+                <div id="tab-3" class="tab-content">
+                    <h3>🎯 学生诊断与双轨报告</h3>
+                    <ul class="info-list">
+                        <li class="info-item" data-node-id="C1"><strong>分发作业</strong><p>将“黄金题库”分发给学生作答。</p></li>
+                        <li class="info-item" data-node-id="C2"><strong>学生答卷</strong><p>收集学生的完成作品。</p></li>
+                        <li class="info-item" data-node-id="C3"><strong>上传分析</strong><p>上传学生答卷，执行深度诊断Prompt。</p></li>
+                        <li class="info-item" data-node-id="C4"><strong>错题分析</strong><p>AI启动错题时光机，进行错误归因与层级诊断。</p></li>
+                        <li class="info-item" data-node-id="C5"><strong>阶段三成果</strong><p>生成教师端的“战略仪表盘”和学生端的“个人行动手册”。</p></li>
+                    </ul>
+                </div>
+
+                <div id="tab-4" class="tab-content">
+                    <h3>🛠️ 高阶教学资源创造</h3>
+                    <ul class="info-list">
+                        <li class="info-item" data-node-id="D1"><strong>确认执行</strong><p>基于诊断报告，执行SOP构建Prompt。</p></li>
+                        <li class="info-item" data-node-id="D2"><strong>SOP构建</strong><p>AI基于黄金题库，生成标准解题模型SOP。</p></li>
+                        <li class="info-item" data-node-id="D3"><strong>SOP文档</strong><p>获得核心解题SOP文档。</p></li>
+                        <li class="info-item" data-node-id="D4"><strong>SOP确认</strong><p>确认SOP后，执行实战模拟器Prompt。</p></li>
+                        <li class="info-item" data-node-id="D5"><strong>案例匹配</strong><p>AI为SOP匹配典型案例，完善实战内容。</p></li>
+                        <li class="info-item" data-node-id="D6"><strong>阶段四成果</strong><p>产出包含实战案例的Flashcard教学工具。</p></li>
+                    </ul>
+                </div>
+
+                <div id="tab-5" class="tab-content">
+                    <h3>🔄 学习闭环与未来迭代</h3>
+                    <ul class="info-list">
+                        <li class="info-item" data-node-id="E1"><strong>学生学习</strong><p>学生使用个人行动手册和SOP Flashcard进行学习。</p></li>
+                        <li class="info-item" data-node-id="E2"><strong>教师跟踪</strong><p>教师使用战略仪表盘追踪学生进展。</p></li>
+                        <li class="info-item" data-node-id="E3"><strong>高阶设计</strong><p>根据数据反馈，执行变式训练或趋势预测Prompt。</p></li>
+                        <li class="info-item" data-node-id="E4"><strong>生成优化</strong><p>AI生成新的变式题库或跨年度对比报告。</p></li>
+                        <li class="info-item" data-node-id="E5"><strong>持续成果</strong><p>产出新的学习材料和战略洞察报告，形成教学闭环。</p></li>
+                    </ul>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item"><div class="legend-color start-color"></div><span>起点</span></div>
+                    <div class="legend-item"><div class="legend-color user-color"></div><span>用户操作</span></div>
+                    <div class="legend-item"><div class="legend-color ai-color"></div><span>AI处理</span></div>
+                    <div class="legend-item"><div class="legend-color output-color"></div><span>中间输出</span></div>
+                    <div class="legend-item"><div class="legend-color final-color"></div><span>最终成果</span></div>
+                    <div class="legend-item"><div class="legend-color student-color"></div><span>学生活动</span></div>
+                    <div class="legend-item"><div class="legend-color teacher-color"></div><span>教师活动</span></div>
+                    <div class="legend-item"><div class="legend-color data-color"></div><span>数据/材料</span></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                nodeSpacing: 50,
+                rankSpacing: 70,
+                curve: 'basis'
+            }
+        });
+
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(item => item.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    const targetTab = tab.getAttribute('data-tab');
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `tab-${targetTab}`) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Function to handle all interactions
+            const setupInteractions = () => {
+                const infoItems = document.querySelectorAll('.info-item');
+                const diagramNodes = document.querySelectorAll('#mermaid-diagram .node');
+
+                const nodeToStageMap = {
+                    'A1': '1', 'A2': '1', 'A3': '1',
+                    'B1': '2', 'B2': '2', 'B3': '2', 'B4': '2', 'B5': '2',
+                    'C1': '3', 'C2': '3', 'C3': '3', 'C4': '3', 'C5': '3',
+                    'D1': '4', 'D2': '4', 'D3': '4', 'D4': '4', 'D5': '4', 'D6': '4',
+                    'E1': '5', 'E2': '5', 'E3': '5', 'E4': '5', 'E5': '5', 'START': '1'
+                };
+                
+                // Mouse over info item -> highlight diagram node
+                infoItems.forEach(item => {
+                    const nodeId = item.getAttribute('data-node-id');
+                    if (!nodeId) return;
+
+                    item.addEventListener('mouseover', () => {
+                        const targetNode = document.getElementById(nodeId);
+                        if (targetNode) {
+                            targetNode.classList.add('highlight');
+                        }
+                    });
+
+                    item.addEventListener('mouseout', () => {
+                        const targetNode = document.getElementById(nodeId);
+                        if (targetNode) {
+                            targetNode.classList.remove('highlight');
+                        }
+                    });
+                });
+
+                // Mouse over diagram node -> highlight info item
+                diagramNodes.forEach(node => {
+                    const nodeId = node.id;
+                    const targetItem = document.querySelector(`.info-item[data-node-id="${nodeId}"]`);
+
+                    if (targetItem) {
+                        node.addEventListener('mouseover', () => {
+                            targetItem.classList.add('highlight');
+                            targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        });
+
+                        node.addEventListener('mouseout', () => {
+                            targetItem.classList.remove('highlight');
+                        });
+
+                        // Click on node -> switch tab
+                        node.addEventListener('click', () => {
+                            const stage = nodeToStageMap[nodeId];
+                            if(stage) {
+                                document.querySelector(`.tab-button[data-tab="${stage}"]`).click();
+                            }
+                        });
+                    }
+                });
+            };
+
+            // Using a MutationObserver is more reliable than a timeout for waiting on Mermaid
+            const observer = new MutationObserver((mutationsList, obs) => {
+                for(const mutation of mutationsList) {
+                    if (mutation.type === 'childList') {
+                        const diagram = document.getElementById('mermaid-diagram');
+                        if (diagram && diagram.hasAttribute('data-processed')) {
+                            setupInteractions();
+                            obs.disconnect(); // We're done, stop observing
+                            return;
+                        }
+                    }
+                }
+            });
+
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+    </script>
+</body>
+</html>
