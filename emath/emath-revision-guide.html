@@ -192,8 +192,8 @@
                     <strong>核心目标:</strong> 完成所有题库的首次练习，暴露所有问题点。
                 </div>
                 <div class="week-tabs">
-                    <button class="week-tab-button active" onclick="showWeekTab(1, 'student')">学生任务视图</button>
-                    <button class="week-tab-button" onclick="showWeekTab(1, 'ai')">AI仪表盘</button>
+                    <button class="week-tab-button active" onclick="showWeekTab(1, 'student', event)">学生任务视图</button>
+                    <button class="week-tab-button" onclick="showWeekTab(1, 'ai', event)">AI仪表盘</button>
                 </div>
                 <div id="week-1-student" class="tab-pane active">
                     <table class="task-table">
@@ -210,15 +210,12 @@
                     <table class="ai-table">
                         <thead><tr><th>日期</th><th>核心任务</th><th>具体资源/练习清单</th><th style="text-align:center;">状态</th></tr></thead>
                         <tbody>
-                            <!-- [修正] 补全了周一的内容 -->
                             <tr><td><strong>周一</strong></td><td><strong>代数综合处理</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Comprehensive Algebraic Manipulation` 练习包。<br>👨‍🎓 Dennis任务: 为所有错题填写“错误分析卡”。</td><td class="status-cell"><span class="status-toggle">🔲</span></td></tr>
-                            <!-- [修正] 补全了周二的内容 -->
                             <tr><td><strong>周二</strong></td><td><strong>卫星题型 (第一批)</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Indices & Standard Form` 和 `G3 EOY|Inequalities` 两个练习包。</td><td class="status-cell"><span class="status-toggle">🔲</span></td></tr>
                             <tr><td><strong>周三</strong></td><td><strong>二次函数与图像</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Quadratic Functions & Graphs` 练习包。<br>👨‍🎓 Dennis任务: 为所有错题填写“错误分析卡”。</td><td class="status-cell"><span class="status-toggle">🔲</span></td></tr>
                             <tr><td><strong>周四</strong></td><td><strong>卫星题型 (第二批)</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Ratio & Percentage...` 和 `G3 EOY|Statistics & Probability` 两个练习包。</td><td class="status-cell"><span class="status-toggle">🔲</span></td></tr>
                             <tr><td><strong>周五</strong></td><td><strong>几何证明与相似/全等</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Geometric Proofs...` 练习包。<br>👨‍🎓 Dennis任务: 为所有错题填写“错误分析卡”。</td><td class="status-cell"><span class="status-toggle">🔲</span></td></tr>
                             <tr><td><strong>周六</strong></td><td><strong>卫星题型 (第三批)</strong></td><td>👨‍🎓 Dennis任务: 完成 `G3 EOY|Coordinate Geometry` 和 `G3 EOY|Mensuration` 两个练习包。</td><td class="status-cell"><span class="status-toggle">🔲</span></td></tr>
-                            <!-- [修正] 修复了周日错误的HTML结构 -->
                             <tr><td><strong>周日</strong></td><td><strong>周度总结</strong></td><td>👨‍🎓 Dennis任务: **更新个人能力雷达图**，找出本周暴露出的最主要的3个弱点。<br>🔄 AI任务: 基于Dennis的答卷，为**所有核心题型**生成**双轨诊断报告**。</td><td class="status-cell"><span class="status-toggle">🔄</span></td></tr>
                         </tbody>
                     </table>
@@ -237,8 +234,8 @@
                     <strong>核心目标:</strong> 针对核心题型的弱点进行强化，并提升解题速度。
                 </div>
                 <div class="week-tabs">
-                    <button class="week-tab-button active" onclick="showWeekTab(2, 'student')">学生任务视图</button>
-                    <button class="week-tab-button" onclick="showWeekTab(2, 'ai')">AI仪表盘</button>
+                    <button class="week-tab-button active" onclick="showWeekTab(2, 'student', event)">学生任务视图</button>
+                    <button class="week-tab-button" onclick="showWeekTab(2, 'ai', event)">AI仪表盘</button>
                 </div>
                 <div id="week-2-student" class="tab-pane active">
                     <table class="task-table">
@@ -279,8 +276,8 @@
                     <strong>核心目标:</strong> 完成最终模拟，调整考试心态与节奏。
                 </div>
                 <div class="week-tabs">
-                    <button class="week-tab-button active" onclick="showWeekTab(3, 'student')">学生任务视图</button>
-                    <button class="week-tab-button" onclick="showWeekTab(3, 'ai')">AI仪表盘</button>
+                    <button class="week-tab-button active" onclick="showWeekTab(3, 'student', event)">学生任务视图</button>
+                    <button class="week-tab-button" onclick="showWeekTab(3, 'ai', event)">AI仪表盘</button>
                 </div>
                 <div id="week-3-student" class="tab-pane active">
                     <table class="task-table">
@@ -304,11 +301,11 @@
 
     <button class="floating-action" onclick="resetProgress()" title="重置进度">🔄</button>
 
+    <!-- [修正] 补全了所有缺失的 JavaScript 代码 -->
     <script>
         const paper1Date = new Date('2025-10-01');
         const paper2Date = new Date('2025-10-07');
         
-        // [新增] 定义Local Storage的键名
         const studentProgressKey = 'emathStudentProgress';
         const aiStatusKey = 'emathAiStatus';
 
@@ -350,8 +347,7 @@
             document.getElementById('completion-rate').textContent = `${completionRate}%`;
             document.getElementById('overall-progress').style.width = `${completionRate}%`;
         }
-
-        // [修改] 保存学生任务进度
+        
         function saveStudentProgress() {
             const checkboxes = document.querySelectorAll('.task-checkbox');
             const progress = {};
@@ -361,7 +357,6 @@
             localStorage.setItem(studentProgressKey, JSON.stringify(progress));
         }
 
-        // [修改] 加载学生任务进度
         function loadStudentProgress() {
             const savedProgress = JSON.parse(localStorage.getItem(studentProgressKey));
             if (savedProgress) {
@@ -375,7 +370,6 @@
             updateProgress();
         }
         
-        // [新增] 保存AI仪表盘状态
         function saveAiStatus() {
             const statusElements = document.querySelectorAll('.status-toggle');
             const statuses = {};
@@ -385,7 +379,6 @@
             localStorage.setItem(aiStatusKey, JSON.stringify(statuses));
         }
         
-        // [新增] 加载AI仪表盘状态
         function loadAiStatus() {
             const savedStatuses = JSON.parse(localStorage.getItem(aiStatusKey));
             if (savedStatuses) {
@@ -396,4 +389,58 @@
                     }
                 });
             }
-      
+        }
+
+        function resetProgress() {
+            if (confirm('确定要重置所有学生任务和AI仪表盘状态吗？此操作将清除所有已保存的记录。')) {
+                const checkboxes = document.querySelectorAll('.task-checkbox');
+                checkboxes.forEach(checkbox => checkbox.checked = false);
+                localStorage.removeItem(studentProgressKey);
+                updateProgress();
+                
+                const statusElements = document.querySelectorAll('.status-toggle');
+                const defaultStatuses = ['🔲','🔲','🔲','🔲','🔲','🔲','🔄','🔲','🔲','🔲','🔲','🔄','🔄','🔲','🔲','🔲'];
+                statusElements.forEach((el, index) => el.textContent = defaultStatuses[index] || '🔲');
+                localStorage.removeItem(aiStatusKey);
+            }
+        }
+
+        function showWeekTab(weekNum, tabName, event) {
+            document.querySelectorAll(`#week-${weekNum} .tab-pane`).forEach(pane => pane.classList.remove('active'));
+            document.querySelectorAll(`#week-${weekNum} .week-tab-button`).forEach(button => button.classList.remove('active'));
+            document.getElementById(`week-${weekNum}-${tabName}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function toggleAIStatus(element) {
+            const states = ['🔲', '🔄', '✅'];
+            let currentIndex = states.indexOf(element.textContent);
+            let nextIndex = (currentIndex + 1) % states.length;
+            element.textContent = states[nextIndex];
+            saveAiStatus();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountdown();
+            setInterval(updateCountdown, 60000); 
+            
+            loadStudentProgress();
+            loadAiStatus();
+            
+            document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    updateProgress();
+                    saveStudentProgress();
+                });
+            });
+            
+            document.querySelectorAll('.status-toggle').forEach(el => {
+                el.addEventListener('click', () => toggleAIStatus(el));
+            });
+
+            // 默认展开第一周
+            toggleWeek(1);
+        });
+    </script>
+</body>
+</html>
