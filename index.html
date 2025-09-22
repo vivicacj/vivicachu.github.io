@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>O-Level L1-R5 考题深度分析平台</title>
     <style>
-        /* ... [CSS样式保持不变] ... */
+        /* --- [原有样式] --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: white; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
@@ -26,16 +26,25 @@
         .card-header { padding: 25px; color: white; font-weight: bold; font-size: 1.3rem; text-align: center; position: relative; }
         .card-header::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: rgba(255, 255, 255, 0.3); border-radius: 2px; }
         .card-body { padding: 25px; color: #333; }
+        
         .cta-section { text-align: center; margin-top: 50px; background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; }
         .cta-section h3 { margin-bottom: 25px; font-size: 1.5rem; }
         .cta-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         .cta-button { color: white; padding: 15px 40px; font-size: 1.2rem; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; font-weight: bold; }
+        
         .start-learning { background: linear-gradient(135deg, #ff6b6b, #ee5a52); box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4); }
         .start-learning:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6); }
+        
         .view-workflow { background: linear-gradient(135deg, #3498db, #2980b9); box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); }
         .view-workflow:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(52, 152, 219, 0.6); }
+        
+        /* [新增] 考试时间表按钮样式 */
+        .view-timetable { background: linear-gradient(135deg, #2ecc71, #27ae60); box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4); }
+        .view-timetable:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(46, 204, 113, 0.6); }
+
         .notification { position: fixed; top: 20px; right: 20px; background: rgba(76, 175, 80, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; transform: translateX(400px); transition: transform 0.3s ease; z-index: 1000; }
         .notification.show { transform: translateX(0); }
+
         .accordion-item { border-bottom: 1px solid #eee; }
         .accordion-item:last-child { border-bottom: none; }
         .accordion-header { padding: 15px 10px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.3s ease; }
@@ -47,13 +56,14 @@
         .accordion-content li { padding: 5px 0; font-size: 0.9rem; opacity: 0.9; }
         .accordion-content a { color: #667eea; text-decoration: none; font-weight: 500; }
         .accordion-content a:hover { text-decoration: underline; }
+
         .english { background: linear-gradient(135deg, #ff6b6b, #ee5a52); } .chinese { background: linear-gradient(135deg, #4ecdc4, #44a08d); } .emath { background: linear-gradient(135deg, #45b7d1, #3498db); } .amath { background: linear-gradient(135deg, #f39c12, #e67e22); } .geography { background: linear-gradient(135deg, #27ae60, #229954); } .science { background: linear-gradient(135deg, #8e44ad, #9b59b6); } .poa { background: linear-gradient(135deg, #e74c3c, #c0392b); } .history { background: linear-gradient(135deg, #795548, #6d4c41); }
         .study-resource { background: linear-gradient(135deg, #1abc9c, #16a085); }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- ... [Header and Overview sections remain the same] ... -->
         <header class="header">
              <h1>O-Level L1-R5 考题深度分析平台</h1>
              <p>洞悉考题演变，精准预测未来趋势</p>
@@ -74,8 +84,7 @@
             <p>逐层深入，解构历年考题核心</p>
             
             <div class="subjects-grid">
-                <!-- ... [Other subjects remain the same] ... -->
-                 <!-- English -->
+                <!-- English -->
                 <div class="subject-card" onclick="navigateToSubject('english')">
                     <div class="card-header english"><h3>English Language</h3></div>
                     <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
@@ -141,12 +150,13 @@
             <h3>准备好开始了吗？</h3>
             <div class="cta-buttons">
                 <a href="#" class="cta-button start-learning" onclick="startAnalysis()">进入科目分析</a>
-                <!-- [修正] 更新为相对路径 -->
                 <a href="./emath/e-math-ai-workflow.html" class="cta-button view-workflow" target="_blank">查看AI工作流程</a>
+                <!-- [新增] 考试时间表按钮 -->
+                <a href="./emath/g3-exam-timetable.html" class="cta-button view-timetable" target="_blank">查看考试时间表</a>
             </div>
         </div>
     </div>
-    <!-- ... [JavaScript remains the same] ... -->
+
     <div id="notification" class="notification">正在跳转...</div>
 
     <script>
@@ -188,29 +198,5 @@
             }, 3000);
         }
     </script>
-</body>
-</html>```
-
----
-
-#### 第2步：更新 `emath-revision-guide.html`
-
-这个文件内部也有返回主页的链接，同样需要修正。
-
-```html
-<!-- ... [文件头部和样式不变] ... -->
-<body>
-    <nav class="breadcrumbs">
-        <div class="container-nav">
-            <!-- [修正] 更新为相对路径 -->
-            <a href="../index.html">平台主页</a>
-            <span>&gt;</span>
-            <!-- [修正] 更新为相对路径 -->
-            <a href="../index.html">Study Resource</a>
-            <span>&gt;</span>
-            <span class="current-page">E-Math 备考计划</span>
-        </div>
-    </nav>
-<!-- ... [文件剩余部分不变] ... -->
 </body>
 </html>
