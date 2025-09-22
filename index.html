@@ -1,176 +1,202 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O-Level Study Platform</title>
+    <title>O-Level L1-R5 考题深度分析平台</title>
     <style>
-        /* CSS 样式部分保持不变 */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        /* --- [原有样式] --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background-color: #1a1a2e; color: #e0e0e0; line-height: 1.6; overflow-x: hidden; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-        .header { text-align: center; padding: 60px 20px; position: relative; }
-        .header h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 10px; background: linear-gradient(135deg, #4facfe, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .header p { font-size: 1.2rem; color: #a9a9d0; max-width: 700px; margin: 0 auto; }
-        .subjects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
-        .subject-card { text-decoration: none; color: white; border-radius: 20px; padding: 30px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .subject-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .subject-icon { font-size: 2rem; }
-        .subject-title { font-size: 1.5rem; font-weight: 600; }
-        .subject-description { font-size: 0.95rem; color: rgba(255,255,255,0.8); }
-        .math { background: linear-gradient(135deg, #667eea, #764ba2); }
-        .h-chinese { background: linear-gradient(135deg, #ff6b6b, #ff8e53); }
-        .english { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-        .physics { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }
-        .chemistry { background: linear-gradient(135deg, #48dbfb, #0abde3); }
-        .biology { background: linear-gradient(135deg, #28a745, #20c997); }
-        .history { background: linear-gradient(135deg, #feca57, #ff9f43); }
-        .geography { background: linear-gradient(135deg, #ff6b81, #ff4757); }
-        .cta-section { text-align: center; margin-top: 60px; padding: 40px 20px; }
-        .cta-section h2 { font-size: 2.5rem; margin-bottom: 20px; color: #fff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: white; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 3rem; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 30px; }
+        .overview { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; margin-bottom: 50px; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center; }
+        .stat-item { padding: 20px; }
+        .stat-number { font-size: 3rem; font-weight: bold; color: #64b5f6; margin-bottom: 5px; }
+        .stat-label { font-size: 1.1rem; opacity: 0.9; }
+        .learning-journey { margin-bottom: 40px; }
+        .learning-journey h2 { text-align: center; font-size: 2.5rem; margin-bottom: 15px; }
+        .learning-journey p { text-align: center; font-size: 1.2rem; opacity: 0.9; margin-bottom: 40px; }
+        .subjects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .subject-card { background: rgba(255, 255, 255, 0.95); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; border: 2px solid transparent; display: flex; flex-direction: column; }
+        .subject-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); border-color: rgba(255, 255, 255, 0.5); }
+        .card-header { padding: 25px; color: white; font-weight: bold; font-size: 1.3rem; text-align: center; position: relative; }
+        .card-header::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: rgba(255, 255, 255, 0.3); border-radius: 2px; }
+        .card-body { padding: 25px; color: #333; }
         
-        /* --- 核心修改点：CTA 按钮区域 --- */
+        .cta-section { text-align: center; margin-top: 50px; background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; }
+        .cta-section h3 { margin-bottom: 25px; font-size: 1.5rem; }
         .cta-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .cta-button { display: inline-block; padding: 15px 35px; text-decoration: none; color: #1a1a2e; border-radius: 50px; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; }
-        .cta-primary { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-        .cta-secondary { background: linear-gradient(135deg, #a8edea, #fed6e3); } /* New style for the second button */
-        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-        /* --- 修改结束 --- */
+        .cta-button { color: white; padding: 15px 40px; font-size: 1.2rem; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; font-weight: bold; }
         
-        #notification { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #ff6b6b; color: white; padding: 15px 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s, transform 0.5s; }
-        #notification.show { opacity: 1; visibility: visible; transform: translate(-50%, -20px); }
-        .background-shapes div { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.05); }
-        .shape1 { width: 200px; height: 200px; top: 10%; left: 10%; }
-        .shape2 { width: 100px; height: 100px; top: 20%; right: 15%; }
-        .shape3 { width: 50px; height: 50px; bottom: 10%; left: 20%; }
-        .shape4 { width: 150px; height: 150px; bottom: 15%; right: 10%; }
-        @media (max-width: 768px) { .header h1 { font-size: 2.5rem; } .subjects-grid { grid-template-columns: 1fr; } }
+        .start-learning { background: linear-gradient(135deg, #ff6b6b, #ee5a52); box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4); }
+        .start-learning:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6); }
+        
+        .view-workflow { background: linear-gradient(135deg, #3498db, #2980b9); box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); }
+        .view-workflow:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(52, 152, 219, 0.6); }
+        
+        /* [新增] 考试时间表按钮样式 */
+        .view-timetable { background: linear-gradient(135deg, #2ecc71, #27ae60); box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4); }
+        .view-timetable:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(46, 204, 113, 0.6); }
+
+        .notification { position: fixed; top: 20px; right: 20px; background: rgba(76, 175, 80, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; transform: translateX(400px); transition: transform 0.3s ease; z-index: 1000; }
+        .notification.show { transform: translateX(0); }
+
+        .accordion-item { border-bottom: 1px solid #eee; }
+        .accordion-item:last-child { border-bottom: none; }
+        .accordion-header { padding: 15px 10px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.3s ease; }
+        .accordion-header:hover { background-color: #f8f9fa; }
+        .accordion-header .icon { font-size: 1.2rem; transition: transform 0.3s ease; }
+        .accordion-header.active .icon { transform: rotate(45deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: #f8f9ff; }
+        .accordion-content ul { list-style-type: none; padding: 10px 15px 15px 30px; }
+        .accordion-content li { padding: 5px 0; font-size: 0.9rem; opacity: 0.9; }
+        .accordion-content a { color: #667eea; text-decoration: none; font-weight: 500; }
+        .accordion-content a:hover { text-decoration: underline; }
+
+        .english { background: linear-gradient(135deg, #ff6b6b, #ee5a52); } .chinese { background: linear-gradient(135deg, #4ecdc4, #44a08d); } .emath { background: linear-gradient(135deg, #45b7d1, #3498db); } .amath { background: linear-gradient(135deg, #f39c12, #e67e22); } .geography { background: linear-gradient(135deg, #27ae60, #229954); } .science { background: linear-gradient(135deg, #8e44ad, #9b59b6); } .poa { background: linear-gradient(135deg, #e74c3c, #c0392b); } .history { background: linear-gradient(135deg, #795548, #6d4c41); }
+        .study-resource { background: linear-gradient(135deg, #1abc9c, #16a085); }
+
     </style>
 </head>
 <body>
-    <div class="background-shapes">
-        <div class="shape1"></div>
-        <div class="shape2"></div>
-        <div class="shape3"></div>
-        <div class="shape4"></div>
-    </div>
-
     <div class="container">
-        <div class="header">
-            <h1>O-Level Study Platform</h1>
-            <p>A centralized hub for Dennis's O-Level learning journey, integrating all subjects and analysis tools.</p>
-        </div>
+        <header class="header">
+             <h1>O-Level L1-R5 考题深度分析平台</h1>
+             <p>洞悉考题演变，精准预测未来趋势</p>
+        </header>
 
-        <div class="subjects-grid">
-            <a href="e-math/" class="subject-card math">
-                <div class="card-header">
-                    <span class="subject-icon">🧮</span>
-                    <h3 class="subject-title">E-Math</h3>
+        <section class="overview">
+            <h2>平台总览</h2>
+            <div class="stats">
+                <div class="stat-item"><div class="stat-number">8</div><div class="stat-label">核心科目</div></div>
+                <div class="stat-item"><div class="stat-number">1</div><div class="stat-label">学习资源</div></div>
+                <div class="stat-item"><div class="stat-number">10+</div><div class="stat-label">年份真题数据</div></div>
+                <div class="stat-item"><div class="stat-number">AI</div><div class="stat-label">趋势预测</div></div>
+            </div>
+        </section>
+
+        <section class="learning-journey">
+            <h2>各科目深度分析模块</h2>
+            <p>逐层深入，解构历年考题核心</p>
+            
+            <div class="subjects-grid">
+                <!-- English -->
+                <div class="subject-card" onclick="navigateToSubject('english')">
+                    <div class="card-header english"><h3>English Language</h3></div>
+                    <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
                 </div>
-                <p class="subject-description">Core concepts, revision guides, and sprint plans for Elementary Mathematics.</p>
-            </a>
-            <a href="h-chinese/" class="subject-card h-chinese">
-                <div class="card-header">
-                    <span class="subject-icon">✍️</span>
-                    <h3 class="subject-title">Higher Chinese</h3>
+                <!-- Chinese -->
+                <div class="subject-card" onclick="navigateToSubject('chinese')">
+                    <div class="card-header chinese"><h3>Higher Chinese</h3></div>
+                    <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
                 </div>
-                <p class="subject-description">Comprehensive breakdown of all papers, writing skills, and oral practice.</p>
-            </a>
-            <a href="#" class="subject-card english">
-                <div class="card-header">
-                    <span class="subject-icon">📚</span>
-                    <h3 class="subject-title">English</h3>
+                <!-- E-Math Card -->
+                <div class="subject-card">
+                    <div class="card-header emath"><h3>Elementary Mathematics</h3></div>
+                    <div class="card-body">
+                        <div class="accordion-container">
+                            <div class="accordion-item"><div class="accordion-header">第一层：宏观战略与框架 <span class="icon">+</span></div><div class="accordion-content"><ul><li>1. AI学习策略与诊断闭环系统</li><li>2. 通用学科深度分析Prompt库</li><li>3. E-Math 考情分析报告<ul><li><strong><a href="./emath/1_strategy_framework.html" target="_blank">3.3 考情演变与未来备考战略洞察 (点击查看)</a></strong></li></ul></li><li>4. E-Math 核心/卫星题型清单</li><li>5. E-Math 核心能力提升项目Checklist</li></ul></div></div>
+                            <div class="accordion-item"><div class="accordion-header">第二层：核心题型深度突破包 <span class="icon">+</span></div><div class="accordion-content"><ul><li>6. 三角函数综合应用 (黄金题库, SOP)</li><li>7. 几何证明与相似/全等 (黄金题库, 母题解析)</li><li>8. 二次函数与图像 (黄金题库, SOP)</li><li>9. 代数综合处理 (黄金题库, 母题解析)</li></ul></div></div>
+                            <div class="accordion-item"><div class="accordion-header">第三层：卫星题型快速攻克包 <span class="icon">+</span></div><div class="accordion-content"><ul><li>10. 指数与标准式 / 不等式</li><li>11. 比例与百分比 / 统计与概率</li><li>12. 坐标几何 / 测量与空间几何</li></ul></div></div>
+                            <div class="accordion-item"><div class="accordion-header">第四层：学生个人诊断与干预 <span class="icon">+</span></div><div class="accordion-content"><ul><li>13. 学生个人档案 (双轨诊断报告)</li><li>14. 通用评估工具 (能力评估清单)</li></ul></div></div>
+                        </div>
+                    </div>
                 </div>
-                <p class="subject-description">Modules for composition, comprehension, and oral communication skills.</p>
-            </a>
-            <a href="#" class="subject-card physics">
-                <div class="card-header">
-                    <span class="subject-icon">⚛️</span>
-                    <h3 class="subject-title">Physics</h3>
+                <!-- A-Math -->
+                <div class="subject-card" onclick="navigateToSubject('amath')">
+                    <div class="card-header amath"><h3>Additional Mathematics</h3></div>
+                    <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
                 </div>
-                <p class="subject-description">Key topics, formula sheets, and practical application analysis.</p>
-            </a>
-            <a href="#" class="subject-card chemistry">
-                <div class="card-header">
-                    <span class="subject-icon">🧪</span>
-                    <h3 class="subject-title">Chemistry</h3>
+                <!-- Geography -->
+                <div class="subject-card" onclick="navigateToSubject('geography')">
+                    <div class="card-header geography"><h3>Geography</h3></div>
+                     <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
                 </div>
-                <p class="subject-description">In-depth study of chemical principles, experiments, and analysis.</p>
-            </a>
-            <a href="#" class="subject-card biology">
-                <div class="card-header">
-                    <span class="subject-icon">🧬</span>
-                    <h3 class="subject-title">Biology</h3>
+                <!-- Science -->
+                <div class="subject-card" onclick="navigateToSubject('science')">
+                    <div class="card-header science"><h3>Combined Science</h3></div>
+                     <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
                 </div>
-                <p class="subject-description">Exploring life sciences, from cellular functions to ecological systems.</p>
-            </a>
-             <a href="#" class="subject-card history">
-                <div class="card-header">
-                    <span class="subject-icon">📜</span>
-                    <h3 class="subject-title">History</h3>
+                <!-- POA -->
+                <div class="subject-card" onclick="navigateToSubject('poa')">
+                    <div class="card-header poa"><h3>Principles of Accounts</h3></div>
+                     <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
                 </div>
-                <p class="subject-description">Analysis of key historical events, sources, and essay writing skills.</p>
-            </a>
-             <a href="#" class="subject-card geography">
-                <div class="card-header">
-                    <span class="subject-icon">🌍</span>
-                    <h3 class="subject-title">Geography</h3>
+                <!-- History -->
+                <div class="subject-card" onclick="navigateToSubject('history')">
+                    <div class="card-header history"><h3>History</h3></div>
+                     <div class="card-body"><ul><li>第一层：宏观战略与框架</li><li>第二层：核心题型深度突破包</li><li>第三层：卫星题型快速攻克包</li><li>第四层：学生个人诊断与干预</li></ul></div>
                 </div>
-                <p class="subject-description">Study of physical and human geography, map skills, and case studies.</p>
-            </a>
-        </div>
+                <!-- Study Resource Card -->
+                <div class="subject-card">
+                    <div class="card-header study-resource"><h3>Study Resource</h3></div>
+                    <div class="card-body">
+                        <div class="accordion-container">
+                            <div class="accordion-item"><div class="accordion-header">第一层：备考计划 <span class="icon">+</span></div><div class="accordion-content"><ul><li><strong><a href="./emath/emath-revision-guide.html" target="_blank">E-Math A1 冲刺备考计划 (点击查看)</a></strong></li><li>* A-Math 备考计划 (即将推出)</li></ul></div></div>
+                            <div class="accordion-item"><div class="accordion-header">第二层：核心题型资源 <span class="icon">+</span></div><div class="accordion-content"><ul><li>* (待开发)</li></ul></div></div>
+                            <div class="accordion-item"><div class="accordion-header">第三层：卫星题型资源 <span class="icon">+</span></div><div class="accordion-content"><ul><li>* (待开发)</li></ul></div></div>
+                            <div class="accordion-item"><div class="accordion-header">第四层：学习诊断工具 <span class="icon">+</span></div><div class="accordion-content"><ul><li>* (待开发)</li></ul></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="cta-section">
-            <h2>Ready to Begin?</h2>
-            <!-- =========== 核心修改区域开始 =========== -->
+            <h3>准备好开始了吗？</h3>
             <div class="cta-buttons">
-                <a href="#subjects" class="cta-button cta-primary">Start Learning Journey</a>
-                <a href="g3-exam-timetable.html" class="cta-button cta-secondary">View Exam Timetable</a>
+                <a href="#" class="cta-button start-learning" onclick="startAnalysis()">进入科目分析</a>
+                <a href="./emath/e-math-ai-workflow.html" class="cta-button view-workflow" target="_blank">查看AI工作流程</a>
+                <!-- [新增] 考试时间表按钮 -->
+                <a href="./emath/g3-exam-timetable.html" class="cta-button view-timetable" target="_blank">查看考试时间表</a>
             </div>
-            <!-- =========== 核心修改区域结束 =========== -->
         </div>
     </div>
-    
-    <div id="notification"></div>
+
+    <div id="notification" class="notification">正在跳转...</div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const notification = document.getElementById('notification');
-            const messages = [
-                "Welcome back! Let's make today productive.",
-                "New analysis available for Higher Chinese.",
-                "Remember to check the exam timetable regularly."
-            ];
-            
-            setTimeout(() => {
-                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-                notification.textContent = randomMessage;
-                notification.classList.add('show');
-
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 5000);
-            }, 2000);
-
-            // Smooth scroll for the "Start Learning Journey" button
-            const learningJourneyButton = document.querySelector('a[href="#subjects"]');
-            if(learningJourneyButton) {
-                // Find the target element (the grid) and give it an ID if it doesn't have one
-                const subjectsGrid = document.querySelector('.subjects-grid');
-                if(subjectsGrid && !subjectsGrid.id) {
-                    subjectsGrid.id = 'subjects';
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', event => {
+                const accordionHeader = event.currentTarget;
+                const accordionContent = accordionHeader.nextElementSibling;
+                accordionHeader.classList.toggle('active');
+                if (accordionHeader.classList.contains('active')) {
+                    accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                } else {
+                    accordionContent.style.maxHeight = '0px';
                 }
-
-                learningJourneyButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            }
+            });
         });
+
+        function navigateToSubject(subject) {
+            const notification = document.getElementById('notification');
+            const subjectNames = {
+                'english': 'English Language', 'chinese': 'Higher Chinese', 'amath': 'Additional Mathematics', 
+                'geography': 'Geography', 'science': 'Combined Science', 'poa': 'Principles of Accounts', 'history': 'History'
+            };
+            notification.textContent = `正在进入 ${subjectNames[subject]} 深度分析模块...`;
+            notification.classList.add('show');
+            setTimeout(() => {
+                alert(`跳转到 ${subjectNames[subject]} 深度分析页面\n\n此科目页面正在建设中...`);
+                notification.classList.remove('show');
+            }, 1500);
+        }
+
+        function startAnalysis() {
+            const notification = document.getElementById('notification');
+            notification.textContent = '请从上方选择一个科目进入分析';
+            notification.style.background = 'rgba(33, 150, 243, 0.9)';
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => { notification.style.background = 'rgba(76, 175, 80, 0.9)'; }, 300);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
